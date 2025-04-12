@@ -1,22 +1,11 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { LoginFormInputs, loginSchema } from "../utils/login-form.schema";
+import { useLoginForm } from "../hooks/useLoginForm";
 
 export default function LoginForm() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginFormInputs>({
-    resolver: zodResolver(loginSchema),
-  });
-
-  const onSubmit = (data: LoginFormInputs) => {
-    console.log("Form Data:", data);
-  };
+  const { handleSubmit, register, onSubmit, errors, postLogin } =
+    useLoginForm();
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -27,6 +16,7 @@ export default function LoginForm() {
           type="email"
           placeholder="Enter your email"
           className="mt-1"
+          autoComplete="off"
           {...register("email")}
         />
         {errors.email && (
@@ -42,6 +32,7 @@ export default function LoginForm() {
           type="password"
           placeholder="Enter your password"
           className="mt-1"
+          autoComplete="off"
           {...register("password")}
         />
         {errors.password && (
@@ -50,8 +41,8 @@ export default function LoginForm() {
           </p>
         )}
       </div>
-      <Button type="submit" className="w-full">
-        Login
+      <Button type="submit" disabled={postLogin.isPending} className="w-full">
+        {postLogin.isPending ? "Logging in..." : "Login"}
       </Button>
     </form>
   );
