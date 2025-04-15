@@ -5,7 +5,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import "./index.css";
 
-import { Login, NotFound } from "@/pages";
+import { Login, NotFound, Dashboard } from "@/pages";
+import { AuthRoute } from "@/routes";
+import { AuthProvider } from "@/contexts";
 
 const queryClient = new QueryClient();
 
@@ -13,12 +15,17 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
-      <BrowserRouter>
-        <Routes>
-          <Route path="*" element={<NotFound />} />
-          <Route path="/login" element={<Login />} />
-        </Routes>
-      </BrowserRouter>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="*" element={<NotFound />} />
+            <Route path="/login" element={<Login />} />
+            <Route element={<AuthRoute />}>
+              <Route path="/dashboard" element={<Dashboard />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
     </QueryClientProvider>
   </StrictMode>
 );
