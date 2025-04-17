@@ -1,1 +1,3 @@
-export { default as useAxiosPrivate } from "./useAxiosPrivate";
+export * from "./api";
+
+export * from "./useAxiosPrivate";

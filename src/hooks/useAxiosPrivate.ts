@@ -1,1 +1,1 @@
-export default function useAxiosPrivate() {}
+export function useAxiosPrivate() {}
