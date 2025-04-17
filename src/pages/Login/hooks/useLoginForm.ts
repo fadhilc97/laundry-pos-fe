@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
-import { LoginFormInputs, loginSchema } from "../utils/login-form.schema";
-import { usePostLogin } from "./usePostLogin";
+import { LoginFormInputs, loginSchema } from "@/lib";
+import { usePostLogin } from "@/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 export function useLoginForm() {
