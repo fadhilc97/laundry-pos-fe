@@ -14,7 +14,8 @@ export function usePostLogin() {
     mutationFn: async function (data: LoginFormInputs) {
       return await axios.post<{ accessToken: string }>(
         "/api/v1/auth/login",
-        data
+        data,
+        { withCredentials: true }
       );
     },
     onSuccess(data) {
