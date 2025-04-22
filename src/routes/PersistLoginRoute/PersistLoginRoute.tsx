@@ -9,21 +9,15 @@ export default function PersistLoginRoute() {
   const postRefreshToken = usePostRefreshToken();
 
   useEffect(() => {
-    let isMounted = true;
-
     if (!authContext.accessToken) {
       postRefreshToken.mutate(undefined, {
         onSettled() {
-          isMounted && setIsLoading(false);
+          setIsLoading(false);
         },
       });
     } else {
       setIsLoading(false);
     }
-
-    return () => {
-      isMounted = false;
-    };
   }, []);
 
   return isLoading ? <p>Loading...</p> : <Outlet />;
