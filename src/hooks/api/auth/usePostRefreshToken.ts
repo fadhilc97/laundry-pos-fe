@@ -1,21 +1,17 @@
 import { use } from "react";
-import axios from "@/config/axios";
 import { AuthContext } from "@/contexts";
 import { useMutation } from "@tanstack/react-query";
+import { getNewAccessTokenPromise } from "@/lib";
 
 export function usePostRefreshToken() {
   const authContext = use(AuthContext);
 
   return useMutation({
     mutationKey: ["auth", "refresh-token"],
-    mutationFn: async function () {
-      return await axios.post<{ accessToken: string }>(
-        "/api/v1/auth/refresh-token"
-      );
-    },
+    mutationFn: getNewAccessTokenPromise,
     onSuccess(data) {
       authContext.setIsAuthenticated(true);
-      authContext.setAccessToken(data.data.accessToken);
+      authContext.setAccessToken(data);
     },
     onError() {
       authContext.setIsAuthenticated(false);
