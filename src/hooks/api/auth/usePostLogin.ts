@@ -1,9 +1,11 @@
 import { use } from "react";
 import { useNavigate } from "react-router";
 import axios from "@/config/axios";
-import { LoginFormInputs } from "@/lib";
+import { IAuthJwt, LoginFormInputs } from "@/lib";
 import { useMutation } from "@tanstack/react-query";
 import { AuthContext } from "@/contexts";
+
+export interface IPostLoginResponse extends IAuthJwt {}
 
 export function usePostLogin() {
   const authContext = use(AuthContext);
@@ -12,11 +14,9 @@ export function usePostLogin() {
   return useMutation({
     mutationKey: ["auth", "login"],
     mutationFn: async function (data: LoginFormInputs) {
-      return await axios.post<{ accessToken: string }>(
-        "/api/v1/auth/login",
-        data,
-        { withCredentials: true }
-      );
+      return await axios.post<IPostLoginResponse>("/api/v1/auth/login", data, {
+        withCredentials: true,
+      });
     },
     onSuccess(data) {
       authContext.setIsAuthenticated(true);
