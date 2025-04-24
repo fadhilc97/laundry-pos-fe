@@ -12,7 +12,9 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route element={<PersistLoginRoute />}>
           <Route element={<AuthRoute />}>
-            <Route element={<UserRolesRoute roles={[Role.STAFF]} />}>
+            <Route
+              element={<UserRolesRoute roles={[Role.OWNER, Role.STAFF]} />}
+            >
               <Route path="/dashboard" element={<Dashboard />} />
             </Route>
           </Route>
