@@ -11,11 +11,13 @@ export function usePostRefreshToken() {
     mutationFn: getNewAccessTokenPromise,
     onSuccess(data) {
       authContext.setIsAuthenticated(true);
-      authContext.setAccessToken(data);
+      authContext.setAccessToken(data.accessToken);
+      authContext.setRoles(data.roles);
     },
     onError() {
       authContext.setIsAuthenticated(false);
       authContext.setAccessToken(null);
+      authContext.setRoles(null);
     },
   });
 }

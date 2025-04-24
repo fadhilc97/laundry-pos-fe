@@ -21,11 +21,13 @@ export function usePostLogin() {
     onSuccess(data) {
       authContext.setIsAuthenticated(true);
       authContext.setAccessToken(data.data.accessToken);
+      authContext.setRoles(data.data.roles);
       navigate("/dashboard");
     },
     onError() {
       authContext.setIsAuthenticated(false);
       authContext.setAccessToken(null);
+      authContext.setRoles(null);
     },
   });
 }

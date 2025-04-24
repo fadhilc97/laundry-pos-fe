@@ -1,7 +1,7 @@
 import axios from "@/config/axios";
 import { IAuthJwt } from "@/lib/types";
 
-let refreshTokenPromise: Promise<string> | null = null;
+let refreshTokenPromise: Promise<IAuthJwt> | null = null;
 
 export function getNewAccessTokenPromise() {
   if (!refreshTokenPromise) {
@@ -11,7 +11,7 @@ export function getNewAccessTokenPromise() {
       })
       .then((res) => {
         refreshTokenPromise = null;
-        return res.data.accessToken;
+        return res.data;
       })
       .catch((err) => {
         refreshTokenPromise = null;
