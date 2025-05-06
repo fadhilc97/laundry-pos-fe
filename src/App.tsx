@@ -8,6 +8,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="*" element={<NotFound />} />
+        <Route path="/" element={<p>TODO: Put your landing page here</p>} />
         <Route path="/errors" element={<Errors />} />
         <Route path="/login" element={<Login />} />
         <Route element={<PersistLoginRoute />}>
