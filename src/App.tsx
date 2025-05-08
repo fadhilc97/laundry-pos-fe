@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router";
-import { Login, NotFound, Dashboard, Errors } from "@/pages";
+import { Login, NotFound, Dashboard, Errors, LandingPage } from "@/pages";
 import { AuthRoute, PersistLoginRoute, UserRolesRoute } from "@/routes";
 import { Role } from "./lib";
 
@@ -8,7 +8,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="*" element={<NotFound />} />
-        <Route path="/" element={<p>TODO: Put your landing page here</p>} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="/errors" element={<Errors />} />
         <Route path="/login" element={<Login />} />
         <Route element={<PersistLoginRoute />}>
