@@ -16,7 +16,7 @@ export default function CreateLaundryDialog() {
   const myLaundryData = getMyLaundry.data?.data.data;
 
   return (
-    <Dialog open={!myLaundryData}>
+    <Dialog open={!myLaundryData && !getMyLaundry.isPending}>
       <DialogContent className="h-2/3 overflow-auto">
         <DialogHeader className="text-left">
           <DialogTitle>Create Laundry</DialogTitle>
