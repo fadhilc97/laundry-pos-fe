@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { usePostCreateLaundry } from "@/hooks";
 import { CreateLaundryFormInputs, createLaundrySchema } from "@/lib";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -13,9 +14,11 @@ export default function CreateLaundryForm() {
   } = useForm<CreateLaundryFormInputs>({
     resolver: zodResolver(createLaundrySchema),
   });
+  const postCreateLaundry = usePostCreateLaundry();
 
   function onSubmit(data: CreateLaundryFormInputs) {
     console.log(data);
+    postCreateLaundry.mutate(data);
   }
 
   return (
@@ -135,7 +138,11 @@ export default function CreateLaundryForm() {
         </div>
       </div>
       <div className="space-y-1">
-        <Button type="submit" className="w-full">
+        <Button
+          type="submit"
+          disabled={postCreateLaundry.isPending}
+          className="w-full"
+        >
           Submit
         </Button>
       </div>
