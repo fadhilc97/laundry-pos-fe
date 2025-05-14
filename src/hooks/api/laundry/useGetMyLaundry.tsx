@@ -19,5 +19,6 @@ export function useGetMyLaundry() {
         "/api/v1/laundry/me"
       );
     },
+    refetchOnWindowFocus: false,
   });
 }
