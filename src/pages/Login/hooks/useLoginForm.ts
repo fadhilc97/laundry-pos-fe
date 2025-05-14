@@ -14,9 +14,9 @@ export function useLoginForm() {
 
   const postLogin = usePostLogin();
 
-  const onSubmit = (data: LoginFormInputs) => {
+  function onSubmit(data: LoginFormInputs) {
     postLogin.mutate(data);
-  };
+  }
 
   return { register, handleSubmit, errors, postLogin, onSubmit };
 }
