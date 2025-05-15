@@ -118,3 +118,13 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  .nav-menu-item {
+    @apply flex flex-col items-center justify-center text-center text-xs p-3 h-full;
+  }
+
+  .nav-menu-item-active {
+    @apply bg-primary text-primary-foreground;
+  }
+}

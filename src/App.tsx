@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router";
 import { Login, NotFound, Dashboard, Errors, LandingPage } from "@/pages";
 import { AuthRoute, PersistLoginRoute, UserRolesRoute } from "@/routes";
-import { Role } from "./lib";
+import { Role } from "@/lib";
+import { MainLayout } from "@/layouts";
 
 export default function App() {
   return (
@@ -13,10 +14,24 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route element={<PersistLoginRoute />}>
           <Route element={<AuthRoute />}>
-            <Route
-              element={<UserRolesRoute roles={[Role.OWNER, Role.STAFF]} />}
-            >
-              <Route path="/dashboard" element={<Dashboard />} />
+            <Route element={<MainLayout />}>
+              <Route
+                element={<UserRolesRoute roles={[Role.OWNER, Role.STAFF]} />}
+              >
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route
+                  path="/transactions"
+                  element={<p>TODO: Create transaction page here</p>}
+                />
+                <Route
+                  path="/customers"
+                  element={<p>TODO: Create customers page here</p>}
+                />
+                <Route
+                  path="/others"
+                  element={<p>TODO: Create others page here</p>}
+                />
+              </Route>
             </Route>
           </Route>
         </Route>
