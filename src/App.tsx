@@ -1,5 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router";
-import { Login, NotFound, Dashboard, LandingPage, Errors } from "@/pages";
+import {
+  Login,
+  NotFound,
+  Dashboard,
+  LandingPage,
+  Errors,
+  Others,
+} from "@/pages";
 import { AuthRoute, PersistLoginRoute, UserRolesRoute } from "@/routes";
 import { Role } from "@/lib";
 import { MainLayout } from "@/layouts";
@@ -27,10 +34,7 @@ export default function App() {
                   path="/customers"
                   element={<p>TODO: Create customers page here</p>}
                 />
-                <Route
-                  path="/others"
-                  element={<p>TODO: Create others page here</p>}
-                />
+                <Route path="/others" element={<Others />} />
               </Route>
             </Route>
           </Route>
