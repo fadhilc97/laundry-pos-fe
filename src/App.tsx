@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router";
-import { Login, NotFound, Dashboard, Errors, LandingPage } from "@/pages";
+import { Login, NotFound, Dashboard, LandingPage, Errors } from "@/pages";
 import { AuthRoute, PersistLoginRoute, UserRolesRoute } from "@/routes";
 import { Role } from "@/lib";
 import { MainLayout } from "@/layouts";

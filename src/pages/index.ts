@@ -1,6 +1,4 @@
-export * from "./Errors";
+export * from "./Protected";
 export * from "./Public";
 
 export { default as Login } from "./Login/Login";
-export { default as Dashboard } from "./Dashboard/Dashboard";
-export { default as Errors } from "./Errors/Errors";
