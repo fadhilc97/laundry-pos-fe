@@ -6,6 +6,7 @@ import {
   LandingPage,
   Errors,
   Others,
+  MyLaundry,
 } from "@/pages";
 import { AuthRoute, PersistLoginRoute, UserRolesRoute } from "@/routes";
 import { Role } from "@/lib";
@@ -34,7 +35,10 @@ export default function App() {
                   path="/customers"
                   element={<p>TODO: Create customers page here</p>}
                 />
-                <Route path="/others" element={<Others />} />
+                <Route path="/others">
+                  <Route index element={<Others />} />
+                  <Route path="my-laundry" element={<MyLaundry />} />
+                </Route>
               </Route>
             </Route>
           </Route>
