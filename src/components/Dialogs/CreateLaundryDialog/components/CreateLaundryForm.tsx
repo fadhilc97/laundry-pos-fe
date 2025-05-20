@@ -17,7 +17,6 @@ export default function CreateLaundryForm() {
   const postCreateLaundry = usePostCreateLaundry();
 
   function onSubmit(data: CreateLaundryFormInputs) {
-    console.log(data);
     postCreateLaundry.mutate(data);
   }
 
