@@ -7,6 +7,7 @@ import {
   Errors,
   Others,
   MyLaundry,
+  Transactions,
 } from "@/pages";
 import { AuthRoute, PersistLoginRoute, UserRolesRoute } from "@/routes";
 import { Role } from "@/lib";
@@ -27,10 +28,9 @@ export default function App() {
                 element={<UserRolesRoute roles={[Role.OWNER, Role.STAFF]} />}
               >
                 <Route path="/dashboard" element={<Dashboard />} />
-                <Route
-                  path="/transactions"
-                  element={<p>TODO: Create transaction page here</p>}
-                />
+                <Route path="/transactions">
+                  <Route index element={<Transactions />} />
+                </Route>
                 <Route
                   path="/customers"
                   element={<p>TODO: Create customers page here</p>}

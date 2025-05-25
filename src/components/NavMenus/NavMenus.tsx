@@ -17,7 +17,7 @@ const NAV_MENU_ITEMS: NavMenuItem[] = [
 
 export default function NavMenus() {
   return (
-    <nav className="w-full absolute bottom-0">
+    <nav className="w-full fixed bottom-0 bg-white">
       <ul className="flex border *:w-full">
         {NAV_MENU_ITEMS.map((menuItem) => (
           <li key={menuItem.url}>
