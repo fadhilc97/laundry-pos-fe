@@ -55,7 +55,7 @@ export default function TransactionListItem({
           </Badge>
         </div>
         <div className="flex gap-1 py-2">
-          <Link to={`/transaction/details/${id}`} className="w-1/2">
+          <Link to={`/transactions/details/${id}`} className="w-1/2">
             <Button type="button" variant="default" className="w-full">
               Details
             </Button>
