@@ -50,8 +50,8 @@ export default function TransactionListItem({
             Total: {currency}
             {(+totalAmount).toLocaleString("id-ID")}
           </p>
-          <Badge variant="destructive" className="font-semibold">
-            {paymentStatus}
+          <Badge variant="destructive" className="font-semibold capitalize">
+            {paymentStatus.toLowerCase()}
           </Badge>
         </div>
         <div className="flex gap-1 py-2">
