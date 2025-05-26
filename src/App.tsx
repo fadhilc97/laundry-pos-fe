@@ -8,6 +8,7 @@ import {
   Others,
   MyLaundry,
   Transactions,
+  TransactionDetails,
 } from "@/pages";
 import { AuthRoute, PersistLoginRoute, UserRolesRoute } from "@/routes";
 import { Role } from "@/lib";
@@ -30,6 +31,10 @@ export default function App() {
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/transactions">
                   <Route index element={<Transactions />} />
+                  <Route
+                    path="details/:transactionId"
+                    element={<TransactionDetails />}
+                  />
                 </Route>
                 <Route
                   path="/customers"
