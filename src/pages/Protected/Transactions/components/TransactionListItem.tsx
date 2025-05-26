@@ -56,12 +56,20 @@ export default function TransactionListItem({
         </div>
         <div className="flex gap-1 py-2">
           <Link to={`/transactions/details/${id}`} className="w-1/2">
-            <Button type="button" variant="default" className="w-full">
+            <Button
+              type="button"
+              variant="default"
+              className="w-full font-semibold"
+            >
               Details
             </Button>
           </Link>
-          <Button type="button" variant="secondary" className="w-1/2">
-            Pay
+          <Button
+            type="button"
+            variant="outline"
+            className="w-1/2 font-semibold"
+          >
+            Create Payment
           </Button>
         </div>
       </div>
