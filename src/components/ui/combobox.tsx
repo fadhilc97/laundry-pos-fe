@@ -22,9 +22,16 @@ import {
 type Props = {
   options: { value: string; label: string }[];
   selectMessage?: string;
+  onSelect?: (value: string) => void;
+  isError?: boolean;
 };
 
-export function Combobox({ options, selectMessage = "Select..." }: Props) {
+export function Combobox({
+  options,
+  selectMessage = "Select...",
+  onSelect = () => {},
+  isError = false,
+}: Props) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
 
@@ -35,7 +42,10 @@ export function Combobox({ options, selectMessage = "Select..." }: Props) {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-full justify-between"
+          className={cn(
+            "w-full justify-between",
+            isError && "border-destructive"
+          )}
         >
           {value
             ? options.find((option) => option.value === value)?.label
@@ -56,6 +66,7 @@ export function Combobox({ options, selectMessage = "Select..." }: Props) {
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue);
                     setOpen(false);
+                    onSelect(currentValue);
                   }}
                 >
                   {option.label}

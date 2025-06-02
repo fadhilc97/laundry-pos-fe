@@ -1,3 +1,4 @@
+import { NumericFormat } from "react-number-format";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Combobox } from "@/components/ui/combobox";
@@ -11,8 +12,31 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useGetCustomerList, useGetProductList } from "@/hooks";
+import {
+  cn,
+  CreateTransactionFormInputs,
+  createTransactionSchema,
+} from "@/lib";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 
 export default function TransactionCreate() {
+  const {
+    handleSubmit,
+    setValue,
+    getValues,
+    watch,
+    formState: { errors },
+  } = useForm<CreateTransactionFormInputs>({
+    defaultValues: {
+      serviceType: "regular",
+      items: [],
+    },
+    resolver: zodResolver(createTransactionSchema),
+  });
+
+  const transactionItems = getValues("items");
+
   const getCustomerList = useGetCustomerList();
   const customers = getCustomerList.data?.data.data;
   const customerOptions = customers?.map((customer) => ({
@@ -23,8 +47,56 @@ export default function TransactionCreate() {
   const getProductList = useGetProductList();
   const products = getProductList.data?.data.data;
 
+  function onSubmit(data: CreateTransactionFormInputs) {
+    console.log(data);
+  }
+
+  function getItemQuantity(productId: number): number {
+    const existingItem = transactionItems.find(
+      (item) => item.productId === productId
+    );
+    return existingItem?.qty || 0;
+  }
+
+  function handleChangeButtonQty(productId: number, changeQty: number) {
+    const findPredicate = (item: { productId: number; qty: number }) =>
+      item.productId === productId;
+
+    const item = transactionItems.find(findPredicate);
+    const itemIdx = transactionItems.findIndex(findPredicate);
+
+    if (itemIdx === -1 && changeQty > 0) {
+      setValue("items", [...transactionItems, { productId, qty: changeQty }]);
+      return;
+    }
+
+    const newQty = (item?.qty || 0) + changeQty;
+    setValue(`items.${itemIdx}.qty`, newQty < 0 ? 0 : newQty);
+
+    const finalizedItems = transactionItems.filter((item) => item.qty > 0);
+    setValue("items", finalizedItems);
+  }
+
+  function handleChangeInputQty(productId: number, changeQty: number) {
+    const itemIdx = transactionItems.findIndex(
+      (item) => item.productId === productId
+    );
+
+    if (itemIdx === -1) {
+      setValue("items", [...transactionItems, { productId, qty: changeQty }]);
+      return;
+    }
+
+    setValue(`items.${itemIdx}.qty`, changeQty);
+
+    const finalizedItems = transactionItems.filter((item) => item.qty > 0);
+    setValue("items", finalizedItems);
+  }
+
+  watch("items");
+
   return (
-    <form className="p-4 space-y-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="p-4 space-y-4">
       <Card className="p-3 rounded-lg border">
         <div className="space-y-4">
           <div className="space-y-1">
@@ -32,17 +104,27 @@ export default function TransactionCreate() {
             <Combobox
               options={customerOptions || []}
               selectMessage="Select customer..."
+              onSelect={(value) => setValue("customerId", +value)}
+              isError={!!errors.customerId}
             />
-            {/* {errors.email && (
-              <p className="text-xs font-medium text-red-500 mt-1">
-                {errors.email.message}
+            {errors.customerId && (
+              <p className="text-xs font-medium text-red-500">
+                {errors.customerId.message}
               </p>
-            )} */}
+            )}
           </div>
           <div className="space-y-1">
             <Label htmlFor="serviceType">Service Type</Label>
-            <Select name="serviceType" defaultValue="regular">
-              <SelectTrigger className="w-full">
+            <Select
+              onValueChange={(value) => setValue("serviceType", value)}
+              defaultValue={getValues("serviceType")}
+            >
+              <SelectTrigger
+                className={cn(
+                  "w-full",
+                  errors.serviceType && "border-destructive"
+                )}
+              >
                 <SelectValue placeholder="Select service type..." />
               </SelectTrigger>
               <SelectContent>
@@ -51,10 +133,20 @@ export default function TransactionCreate() {
                 <SelectItem value="flash">Flash</SelectItem>
               </SelectContent>
             </Select>
+            {errors.serviceType && (
+              <p className="text-xs font-medium text-red-500">
+                {errors.serviceType.message}
+              </p>
+            )}
           </div>
         </div>
       </Card>
-      <Card className="p-3 rounded-lg border">
+      <Card
+        className={cn(
+          "p-3 rounded-lg border",
+          errors.items && "border-destructive"
+        )}
+      >
         <div className="space-y-2">
           <h1 className="text-lg font-semibold">Items</h1>
           <div className="space-y-2 max-h-[37vh] overflow-auto">
@@ -65,15 +157,31 @@ export default function TransactionCreate() {
                   <p className="text-sm font-semibold">(subtotal here)</p>
                 </div>
                 <div className="flex gap-1 items-center">
-                  <Button size="sm" type="button" variant="default">
+                  <Button
+                    size="sm"
+                    type="button"
+                    variant="default"
+                    onClick={() => handleChangeButtonQty(product.id, -1)}
+                  >
                     -
                   </Button>
-                  <Input
-                    type="text"
+                  <NumericFormat
+                    value={getItemQuantity(product.id)}
+                    onChange={(e) =>
+                      handleChangeInputQty(product.id, +e.target.value)
+                    }
                     className="w-1/4 text-center"
+                    customInput={Input}
                     defaultValue={0}
+                    decimalScale={1}
+                    allowNegative={false}
                   />
-                  <Button size="sm" type="button" variant="default">
+                  <Button
+                    size="sm"
+                    type="button"
+                    variant="default"
+                    onClick={() => handleChangeButtonQty(product.id, 1)}
+                  >
                     +
                   </Button>
                   <p className="text-sm">
