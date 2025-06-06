@@ -3,6 +3,9 @@ import { z } from "zod";
 const createTransactionItemSchema = z.object({
   productId: z.number().int("Required"),
   qty: z.number().positive("Should be positive"),
+  price: z.number().positive("Should be positive"),
+  description: z.string().min(1, "Required"),
+  qtyUnitId: z.number().int("Required"),
 });
 
 export const createTransactionSchema = z.object({

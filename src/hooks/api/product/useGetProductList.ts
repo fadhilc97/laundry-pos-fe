@@ -7,6 +7,7 @@ export interface IProduct {
   name: string;
   price: string;
   quantityUnit: {
+    id: number;
     shortName: string;
   };
 }

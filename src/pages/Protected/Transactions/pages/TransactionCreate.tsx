@@ -29,7 +29,7 @@ export default function TransactionCreate() {
     formState: { errors },
   } = useForm<CreateTransactionFormInputs>({
     defaultValues: {
-      serviceType: "regular",
+      serviceType: "REGULAR",
       items: [],
     },
     resolver: zodResolver(createTransactionSchema),
@@ -58,15 +58,32 @@ export default function TransactionCreate() {
     return existingItem?.qty || 0;
   }
 
-  function handleChangeButtonQty(productId: number, changeQty: number) {
+  function handleChangeButtonQty(
+    product: {
+      productId: number;
+      price: number;
+      description: string;
+      qtyUnitId: number;
+    },
+    changeQty: number
+  ) {
     const findPredicate = (item: { productId: number; qty: number }) =>
-      item.productId === productId;
+      item.productId === product.productId;
 
     const item = transactionItems.find(findPredicate);
     const itemIdx = transactionItems.findIndex(findPredicate);
 
     if (itemIdx === -1 && changeQty > 0) {
-      setValue("items", [...transactionItems, { productId, qty: changeQty }]);
+      setValue("items", [
+        ...transactionItems,
+        {
+          productId: product.productId,
+          qty: changeQty,
+          price: product.price,
+          description: product.description,
+          qtyUnitId: product.qtyUnitId,
+        },
+      ]);
       return;
     }
 
@@ -77,13 +94,30 @@ export default function TransactionCreate() {
     setValue("items", finalizedItems);
   }
 
-  function handleChangeInputQty(productId: number, changeQty: number) {
+  function handleChangeInputQty(
+    product: {
+      productId: number;
+      price: number;
+      description: string;
+      qtyUnitId: number;
+    },
+    changeQty: number
+  ) {
     const itemIdx = transactionItems.findIndex(
-      (item) => item.productId === productId
+      (item) => item.productId === product.productId
     );
 
     if (itemIdx === -1) {
-      setValue("items", [...transactionItems, { productId, qty: changeQty }]);
+      setValue("items", [
+        ...transactionItems,
+        {
+          productId: product.productId,
+          qty: changeQty,
+          price: product.price,
+          description: product.description,
+          qtyUnitId: product.qtyUnitId,
+        },
+      ]);
       return;
     }
 
@@ -91,6 +125,13 @@ export default function TransactionCreate() {
 
     const finalizedItems = transactionItems.filter((item) => item.qty > 0);
     setValue("items", finalizedItems);
+  }
+
+  function getTotalTransactionAmount() {
+    return transactionItems.reduce(
+      (acc, curr) => acc + curr.qty * curr.price,
+      0
+    );
   }
 
   watch("items");
@@ -128,9 +169,9 @@ export default function TransactionCreate() {
                 <SelectValue placeholder="Select service type..." />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="regular">Regular</SelectItem>
-                <SelectItem value="express">Express</SelectItem>
-                <SelectItem value="flash">Flash</SelectItem>
+                <SelectItem value="REGULAR">Regular</SelectItem>
+                <SelectItem value="EXPRESS">Express</SelectItem>
+                <SelectItem value="FLASH">Flash</SelectItem>
               </SelectContent>
             </Select>
             {errors.serviceType && (
@@ -154,21 +195,43 @@ export default function TransactionCreate() {
               <Card key={product.id} className="p-3 rounded-lg border">
                 <div className="flex justify-between gap-2">
                   <p className="text-sm">{product.name}</p>
-                  <p className="text-sm font-semibold">(subtotal here)</p>
+                  <p className="text-sm font-semibold">
+                    {(
+                      getItemQuantity(product.id) * +product.price
+                    ).toLocaleString("id-ID")}
+                  </p>
                 </div>
                 <div className="flex gap-1 items-center">
                   <Button
                     size="sm"
                     type="button"
                     variant="default"
-                    onClick={() => handleChangeButtonQty(product.id, -1)}
+                    onClick={() =>
+                      handleChangeButtonQty(
+                        {
+                          productId: product.id,
+                          description: product.name,
+                          price: +product.price,
+                          qtyUnitId: product.quantityUnit.id,
+                        },
+                        -1
+                      )
+                    }
                   >
                     -
                   </Button>
                   <NumericFormat
                     value={getItemQuantity(product.id)}
                     onChange={(e) =>
-                      handleChangeInputQty(product.id, +e.target.value)
+                      handleChangeInputQty(
+                        {
+                          productId: product.id,
+                          description: product.name,
+                          price: +product.price,
+                          qtyUnitId: product.quantityUnit.id,
+                        },
+                        +e.target.value
+                      )
                     }
                     className="w-1/4 text-center"
                     customInput={Input}
@@ -180,7 +243,17 @@ export default function TransactionCreate() {
                     size="sm"
                     type="button"
                     variant="default"
-                    onClick={() => handleChangeButtonQty(product.id, 1)}
+                    onClick={() =>
+                      handleChangeButtonQty(
+                        {
+                          productId: product.id,
+                          description: product.name,
+                          price: +product.price,
+                          qtyUnitId: product.quantityUnit.id,
+                        },
+                        1
+                      )
+                    }
                   >
                     +
                   </Button>
@@ -194,7 +267,9 @@ export default function TransactionCreate() {
           </div>
           <div className="flex justify-between px-1">
             <p className="font-semibold">Total</p>
-            <p className="font-semibold">Rp12.000</p>
+            <p className="font-semibold">
+              Rp{getTotalTransactionAmount().toLocaleString("id-ID")}
+            </p>
           </div>
         </div>
       </Card>
