@@ -1,4 +1,5 @@
 import { NumericFormat } from "react-number-format";
+import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Combobox } from "@/components/ui/combobox";
@@ -11,7 +12,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useGetCustomerList, useGetProductList } from "@/hooks";
+import {
+  useGetCustomerList,
+  useGetProductList,
+  usePostCreateTransaction,
+} from "@/hooks";
 import {
   cn,
   CreateTransactionFormInputs,
@@ -47,8 +52,11 @@ export default function TransactionCreate() {
   const getProductList = useGetProductList();
   const products = getProductList.data?.data.data;
 
+  const postCreateTransaction = usePostCreateTransaction();
+
   function onSubmit(data: CreateTransactionFormInputs) {
     console.log(data);
+    postCreateTransaction.mutate(data);
   }
 
   function getItemQuantity(productId: number): number {
@@ -273,7 +281,15 @@ export default function TransactionCreate() {
           </div>
         </div>
       </Card>
-      <Button type="submit" variant="default" className="w-full font-semibold">
+      <Button
+        type="submit"
+        disabled={postCreateTransaction.isPending}
+        variant="default"
+        className="w-full font-semibold"
+      >
+        {postCreateTransaction.isPending && (
+          <Loader2 className="animate-spin" />
+        )}
         Confirm and Continue
       </Button>
     </form>
