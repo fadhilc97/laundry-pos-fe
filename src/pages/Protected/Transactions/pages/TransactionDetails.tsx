@@ -139,7 +139,11 @@ export default function TransactionDetails() {
           </p>
           <p className="flex justify-between text-sm">
             <span className="font-semibold">Proceed Date</span>
-            <span>-</span>
+            <span>
+              {transaction?.proceedDate
+                ? moment(transaction.proceedDate).format("DD MMM YYYY")
+                : "-"}
+            </span>
           </p>
           <p className="flex justify-between text-sm">
             <span className="font-semibold">Finished date</span>

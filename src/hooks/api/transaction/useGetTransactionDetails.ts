@@ -14,6 +14,7 @@ export interface IGetTransactionDetail {
   id: number;
   transactionNo: string;
   checkInDate: string;
+  proceedDate: string | null;
   checkOutDate: string | null;
   finishedDate: string | null;
   serviceType: string;
