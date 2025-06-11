@@ -1,3 +1,4 @@
+import { toast } from "sonner";
 import { useAxiosPrivate } from "@/hooks";
 import { CreateTransactionFormInputs, ISuccessResponse } from "@/lib";
 import { useMutation } from "@tanstack/react-query";
@@ -20,6 +21,7 @@ export function usePostCreateTransaction() {
     },
     onSuccess(res) {
       const createdTransactionId = res.data.data?.transactionId;
+      toast("Order already created");
       navigate(`/transactions/details/${createdTransactionId}`);
     },
     onError() {},
