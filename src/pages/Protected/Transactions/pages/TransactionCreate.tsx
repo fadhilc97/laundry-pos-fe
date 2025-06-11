@@ -55,7 +55,6 @@ export default function TransactionCreate() {
   const postCreateTransaction = usePostCreateTransaction();
 
   function onSubmit(data: CreateTransactionFormInputs) {
-    console.log(data);
     postCreateTransaction.mutate(data);
   }
 

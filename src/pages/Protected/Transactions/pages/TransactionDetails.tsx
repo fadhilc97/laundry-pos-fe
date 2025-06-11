@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { useGetTransactionDetails } from "@/hooks";
 import { cn, TransactionPaymentStatus, TransactionStatus } from "@/lib";
 import TransactionFlowActions from "../components/TransactionFlowActions";
+import { CreatePaymentDialog } from "@/components";
 
 type Params = {
   transactionId: string;
@@ -99,10 +100,12 @@ export default function TransactionDetails() {
       <Card className="p-3 rounded-lg border">
         <div className="flex justify-between items-center">
           <h2 className="text-lg font-semibold">Status</h2>
-          <TransactionFlowActions
-            currentStatus={transaction.status}
-            transactionId={transactionId}
-          />
+          {transaction.status !== TransactionStatus.CHECK_OUT && (
+            <TransactionFlowActions
+              currentStatus={transaction.status}
+              transactionId={transactionId}
+            />
+          )}
         </div>
         <ul className="flex items-center justify-between w-full">
           {statusLabelEntries.map(([statusKey, statusLabel], idx, arr) => (
@@ -227,9 +230,10 @@ export default function TransactionDetails() {
             Back to List
           </Button>
         </Link>
-        <Button type="button" variant="default" className="w-1/2 font-semibold">
-          Create Payment
-        </Button>
+        <CreatePaymentDialog
+          transactionId={transactionId}
+          paymentStatus={transaction.paymentStatus}
+        />
       </div>
     </div>
   );
