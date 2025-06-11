@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useGetTransactionDetails } from "@/hooks";
 import { cn, TransactionPaymentStatus, TransactionStatus } from "@/lib";
+import TransactionFlowActions from "../components/TransactionFlowActions";
 
 type Params = {
   transactionId: string;
@@ -31,38 +32,48 @@ export default function TransactionDetails() {
     return idx <= statusKeys.indexOf(status);
   }
 
+  if (!transaction) {
+    return <p>Transaction not found</p>;
+  }
+
+  if (!transactionId) {
+    return <p>Unable to open the details</p>;
+  }
+
   return (
     <div className="p-4 space-y-4">
       <Card className="p-3 bg-secondary rounded-lg border">
-        <div className="space-y-2">
-          <div className="flex justify-between">
-            <div className="-space-y-1">
-              <p className="text-xs">Transaction No.</p>
-              <h2 className="font-semibold text-lg">
-                {transaction?.transactionNo}
-              </h2>
-            </div>
-            <div className="-space-y-1">
-              <p className="text-xs">Payment Status</p>
-              <p
-                className={cn(
-                  "font-semibold capitalize",
-                  transaction?.paymentStatus === TransactionPaymentStatus.PAID
-                    ? "text-green-600"
-                    : "text-destructive"
-                )}
-              >
-                {transaction?.paymentStatus.toLowerCase()}
-              </p>
-            </div>
+        <div className="space-y-2 grid grid-cols-2">
+          <div className="-space-y-1">
+            <p className="text-xs">Transaction No.</p>
+            <h2 className="font-semibold text-lg">
+              {transaction?.transactionNo}
+            </h2>
           </div>
-          <div className="flex justify-between">
-            <div className="-space-y-1">
-              <p className="text-xs">Service Type</p>
-              <p className="font-semibold capitalize">
-                {transaction?.serviceType.toLowerCase()}
-              </p>
-            </div>
+          <div className="-space-y-1">
+            <p className="text-xs">Payment Status</p>
+            <p
+              className={cn(
+                "font-semibold capitalize",
+                transaction?.paymentStatus === TransactionPaymentStatus.PAID
+                  ? "text-green-600"
+                  : "text-destructive"
+              )}
+            >
+              {transaction?.paymentStatus.toLowerCase()}
+            </p>
+          </div>
+          <div className="-space-y-1">
+            <p className="text-xs">Service Type</p>
+            <p className="font-semibold capitalize">
+              {transaction?.serviceType.toLowerCase()}
+            </p>
+          </div>
+          <div className="-space-y-1">
+            <p className="text-xs">Location</p>
+            <p className="font-semibold capitalize">
+              {transaction?.location?.name || "-"}
+            </p>
           </div>
         </div>
       </Card>
@@ -88,14 +99,10 @@ export default function TransactionDetails() {
       <Card className="p-3 rounded-lg border">
         <div className="flex justify-between items-center">
           <h2 className="text-lg font-semibold">Status</h2>
-          <Button
-            size="sm"
-            type="button"
-            variant="default"
-            className="font-semibold"
-          >
-            Proceed
-          </Button>
+          <TransactionFlowActions
+            currentStatus={transaction.status}
+            transactionId={transactionId}
+          />
         </div>
         <ul className="flex items-center justify-between w-full">
           {statusLabelEntries.map(([statusKey, statusLabel], idx, arr) => (
