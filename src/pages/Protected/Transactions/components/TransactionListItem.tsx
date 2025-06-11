@@ -6,6 +6,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router";
 import { IGetTransaction } from "@/hooks";
+import { CreatePaymentDialog } from "@/components";
+import { TransactionPaymentStatus } from "@/lib";
 
 type Props = IGetTransaction;
 
@@ -50,7 +52,14 @@ export default function TransactionListItem({
             Total: {currency}
             {(+totalAmount).toLocaleString("id-ID")}
           </p>
-          <Badge variant="destructive" className="font-semibold capitalize">
+          <Badge
+            variant={
+              paymentStatus === TransactionPaymentStatus.PAID
+                ? "default"
+                : "destructive"
+            }
+            className="font-semibold capitalize"
+          >
             {paymentStatus.toLowerCase()}
           </Badge>
         </div>
@@ -64,13 +73,11 @@ export default function TransactionListItem({
               Details
             </Button>
           </Link>
-          <Button
-            type="button"
-            variant="outline"
-            className="w-1/2 font-semibold"
-          >
-            Create Payment
-          </Button>
+          <CreatePaymentDialog
+            transactionId={id.toString()}
+            paymentStatus={paymentStatus}
+            buttonVariant="outline"
+          />
         </div>
       </div>
     </Card>

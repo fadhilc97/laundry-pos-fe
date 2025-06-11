@@ -233,6 +233,7 @@ export default function TransactionDetails() {
         <CreatePaymentDialog
           transactionId={transactionId}
           paymentStatus={transaction.paymentStatus}
+          buttonVariant="default"
         />
       </div>
     </div>

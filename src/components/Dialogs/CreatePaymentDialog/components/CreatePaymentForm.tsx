@@ -79,10 +79,12 @@ export default function CreatePaymentForm({ transactionId, onSuccess }: Props) {
               customInput={Input}
               decimalSeparator=","
               thousandSeparator="."
+              allowLeadingZeros={false}
               defaultValue={getValues("amount")}
               onValueChange={(values) =>
                 setValue("amount", values.floatValue || 0)
               }
+              autoFocus
             />
             {errors.amount && (
               <p className="text-xs font-medium text-red-500">

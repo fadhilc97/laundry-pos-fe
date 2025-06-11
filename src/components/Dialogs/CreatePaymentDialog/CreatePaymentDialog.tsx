@@ -14,11 +14,13 @@ import { TransactionPaymentStatus } from "@/lib";
 type Props = {
   transactionId: string;
   paymentStatus: TransactionPaymentStatus;
+  buttonVariant: "outline" | "default";
 };
 
 export default function CreatePaymentDialog({
   transactionId,
   paymentStatus,
+  buttonVariant,
 }: Props) {
   const [open, setOpen] = useState<boolean>(false);
 
@@ -27,7 +29,7 @@ export default function CreatePaymentDialog({
       <DialogTrigger asChild>
         <Button
           type="button"
-          variant="default"
+          variant={buttonVariant}
           className="w-1/2 font-semibold"
           disabled={paymentStatus === TransactionPaymentStatus.PAID}
         >

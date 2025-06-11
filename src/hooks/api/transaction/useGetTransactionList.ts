@@ -1,5 +1,9 @@
 import { useAxiosPrivate } from "@/hooks/useAxiosPrivate";
-import { ISuccessResponse } from "@/lib";
+import {
+  ISuccessResponse,
+  TransactionPaymentStatus,
+  TransactionStatus,
+} from "@/lib";
 import { useQuery } from "@tanstack/react-query";
 
 export interface IGetTransaction {
@@ -8,8 +12,8 @@ export interface IGetTransaction {
   checkInDate: string;
   customerName: string;
   serviceType: string;
-  status: string;
-  paymentStatus: string;
+  status: TransactionStatus;
+  paymentStatus: TransactionPaymentStatus;
   totalAmount: string;
   currency: string;
 }

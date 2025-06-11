@@ -30,6 +30,9 @@ export function usePostCreatePayment({ transactionId }: Options) {
     },
     onSuccess(res) {
       queryClient.invalidateQueries({
+        queryKey: ["transaction"],
+      });
+      queryClient.invalidateQueries({
         queryKey: ["transaction", transactionId],
       });
       toast.success(res.data.message, {
