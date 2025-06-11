@@ -1,6 +1,7 @@
 import { useAxiosPrivate } from "@/hooks";
-import { ISuccessResponse, TransactionStatus } from "@/lib";
+import { IErrorResponse, ISuccessResponse, TransactionStatus } from "@/lib";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import { toast } from "sonner";
 
 type Options = { transactionId: string };
@@ -26,7 +27,10 @@ export function usePutUpdateTransaction({ transactionId }: Options) {
       queryClient.invalidateQueries({
         queryKey: ["transaction", transactionId],
       });
-      toast(res.data.message);
+      toast.success(res.data.message);
+    },
+    onError(error: AxiosError<IErrorResponse>) {
+      toast.error(error.response?.data.message);
     },
   });
 }

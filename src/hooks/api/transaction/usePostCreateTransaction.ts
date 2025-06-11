@@ -21,7 +21,7 @@ export function usePostCreateTransaction() {
     },
     onSuccess(res) {
       const createdTransactionId = res.data.data?.transactionId;
-      toast(res.data.message);
+      toast.success(res.data.message);
       navigate(`/transactions/details/${createdTransactionId}`);
     },
     onError() {},
