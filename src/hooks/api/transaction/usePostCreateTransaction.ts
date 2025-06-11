@@ -21,7 +21,7 @@ export function usePostCreateTransaction() {
     },
     onSuccess(res) {
       const createdTransactionId = res.data.data?.transactionId;
-      toast("Order already created");
+      toast(res.data.message);
       navigate(`/transactions/details/${createdTransactionId}`);
     },
     onError() {},
