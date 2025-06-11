@@ -24,6 +24,7 @@ type Props = {
   selectMessage?: string;
   onSelect?: (value: string) => void;
   isError?: boolean;
+  modal?: boolean;
 };
 
 export function Combobox({
@@ -31,12 +32,13 @@ export function Combobox({
   selectMessage = "Select...",
   onSelect = () => {},
   isError = false,
+  modal = false,
 }: Props) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover open={open} onOpenChange={setOpen} modal={modal}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"

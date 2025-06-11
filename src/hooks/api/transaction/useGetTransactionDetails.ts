@@ -25,6 +25,7 @@ export interface IGetTransactionDetail {
   currency: {
     symbol: string;
   };
+  location: { name: string } | null;
   items: {
     id: number;
     description: string;
