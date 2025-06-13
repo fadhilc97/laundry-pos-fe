@@ -1,6 +1,7 @@
 import { useAxiosPrivate } from "@/hooks/useAxiosPrivate";
 import { ISuccessResponse } from "@/lib";
 import { useQuery } from "@tanstack/react-query";
+import { useSearchParams } from "react-router";
 
 export interface IProduct {
   id: number;
@@ -12,12 +13,11 @@ export interface IProduct {
   };
 }
 
-type Options = {
-  serviceType: string;
-};
-
-export function useGetProductList({ serviceType }: Options) {
+export function useGetProductList() {
+  const [searchParams] = useSearchParams();
+  const serviceType = searchParams.get("serviceType") as string;
   const axiosPrivate = useAxiosPrivate();
+
   return useQuery({
     queryKey: ["product", { serviceType }],
     queryFn: async function () {
