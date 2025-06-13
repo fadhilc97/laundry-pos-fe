@@ -24,8 +24,14 @@ import {
 } from "@/lib";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useSearchParams } from "react-router";
 
 export default function TransactionCreate() {
+  const [searchParams, setSearchParams] = useSearchParams({
+    serviceType: "REGULAR",
+  });
+  const serviceType = searchParams.get("serviceType") as string;
+
   const {
     handleSubmit,
     setValue,
@@ -34,7 +40,7 @@ export default function TransactionCreate() {
     formState: { errors },
   } = useForm<CreateTransactionFormInputs>({
     defaultValues: {
-      serviceType: "REGULAR",
+      serviceType: serviceType as string,
       items: [],
     },
     resolver: zodResolver(createTransactionSchema),
@@ -49,7 +55,7 @@ export default function TransactionCreate() {
     label: customer.name,
   }));
 
-  const getProductList = useGetProductList();
+  const getProductList = useGetProductList({ serviceType });
   const products = getProductList.data?.data.data;
 
   const postCreateTransaction = usePostCreateTransaction();
@@ -164,7 +170,11 @@ export default function TransactionCreate() {
           <div className="space-y-1">
             <Label htmlFor="serviceType">Service Type</Label>
             <Select
-              onValueChange={(value) => setValue("serviceType", value)}
+              onValueChange={(value) => {
+                setValue("serviceType", value);
+                setValue("items", []);
+                setSearchParams({ serviceType: value });
+              }}
               defaultValue={getValues("serviceType")}
             >
               <SelectTrigger

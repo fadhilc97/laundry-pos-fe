@@ -12,13 +12,20 @@ export interface IProduct {
   };
 }
 
-export function useGetProductList() {
+type Options = {
+  serviceType: string;
+};
+
+export function useGetProductList({ serviceType }: Options) {
   const axiosPrivate = useAxiosPrivate();
   return useQuery({
-    queryKey: ["product"],
+    queryKey: ["product", { serviceType }],
     queryFn: async function () {
       return await axiosPrivate.get<ISuccessResponse<IProduct[]>>(
-        "/api/v1/product"
+        "/api/v1/product",
+        {
+          params: { serviceType },
+        }
       );
     },
     refetchOnWindowFocus: false,
