@@ -15,6 +15,7 @@ export interface IGetTransaction {
   status: TransactionStatus;
   paymentStatus: TransactionPaymentStatus;
   totalAmount: string;
+  totalPendingPaidAmount: string;
   currency: string;
 }
 

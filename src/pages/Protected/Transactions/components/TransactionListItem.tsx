@@ -20,6 +20,7 @@ export default function TransactionListItem({
   serviceType,
   currency,
   totalAmount,
+  totalPendingPaidAmount,
   paymentStatus,
 }: Props) {
   return (
@@ -52,16 +53,25 @@ export default function TransactionListItem({
             Total: {currency}
             {(+totalAmount).toLocaleString("id-ID")}
           </p>
-          <Badge
-            variant={
-              paymentStatus === TransactionPaymentStatus.PAID
-                ? "default"
-                : "destructive"
-            }
-            className="font-semibold capitalize"
-          >
-            {paymentStatus.toLowerCase()}
-          </Badge>
+          <div className="flex gap-2">
+            {/* TODO: Show partial payment amount */}
+            {/* {+totalPendingPaidAmount > 0 &&
+              +totalPendingPaidAmount < +totalAmount && (
+                <i className="text-sm font-medium">
+                  Pending: {(+totalPendingPaidAmount).toLocaleString("id-ID")}
+                </i>
+              )} */}
+            <Badge
+              variant={
+                paymentStatus === TransactionPaymentStatus.PAID
+                  ? "default"
+                  : "destructive"
+              }
+              className="font-semibold capitalize"
+            >
+              {paymentStatus.toLowerCase()}
+            </Badge>
+          </div>
         </div>
         <div className="flex gap-1 py-2">
           <Link to={`/transactions/details/${id}`} className="w-1/2">
