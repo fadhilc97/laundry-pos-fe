@@ -1,11 +1,11 @@
-import { Calendar, User, HandHeart } from "lucide-react";
+import { Calendar, User, HandHeart, Download } from "lucide-react";
 import moment from "moment";
 import _ from "lodash";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router";
-import { IGetTransaction } from "@/hooks";
+import { IGetTransaction, useGetTransactionReceipt } from "@/hooks";
 import { CreatePaymentDialog } from "@/components";
 import { TransactionPaymentStatus } from "@/lib";
 
@@ -23,14 +23,27 @@ export default function TransactionListItem({
   totalPendingPaidAmount,
   paymentStatus,
 }: Props) {
+  const getTransactionReceipt = useGetTransactionReceipt({ transactionId: id });
+
   return (
     <Card className="rounded-lg p-4">
       <div className="space-y-1 divide-y">
         <div className="flex justify-between items-center py-2">
           <h2 className="font-semibold text-xl">{transactionNo}</h2>
-          <Badge variant="default" className="font-semibold capitalize">
-            {status.replace("_", " ").toLowerCase()}
-          </Badge>
+          <div className="flex gap-1 items-end">
+            <button
+              type="button"
+              className="cursor-pointer"
+              onClick={() => getTransactionReceipt.mutate()}
+            >
+              <Badge variant="default" className="py-1">
+                <Download />
+              </Badge>
+            </button>
+            <Badge variant="default" className="font-semibold capitalize">
+              {status.replace("_", " ").toLowerCase()}
+            </Badge>
+          </div>
         </div>
         <div className="grid grid-cols-2 py-2 gap-1">
           <div className="flex gap-1 items-center">

@@ -59,6 +59,6 @@ export function useGetTransactionDetails({ transactionId }: Options) {
         `/api/v1/transaction/${transactionId}`
       );
     },
-    enabled: !!transactionId,
+    enabled: false,
   });
 }
