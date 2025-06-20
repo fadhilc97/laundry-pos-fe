@@ -1,13 +1,20 @@
-import { Calendar, User, HandHeart, Download } from "lucide-react";
+import {
+  Calendar,
+  User,
+  HandHeart,
+  Download,
+  Loader2,
+  RefreshCw,
+} from "lucide-react";
 import moment from "moment";
 import _ from "lodash";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router";
-import { IGetTransaction, useGetTransactionReceipt } from "@/hooks";
+import { IGetTransaction, usePostGenerateTransactionReceipt } from "@/hooks";
 import { CreatePaymentDialog } from "@/components";
-import { TransactionPaymentStatus } from "@/lib";
+import { cn, TransactionPaymentStatus } from "@/lib";
 
 type Props = IGetTransaction;
 
@@ -23,7 +30,9 @@ export default function TransactionListItem({
   totalPendingPaidAmount,
   paymentStatus,
 }: Props) {
-  const getTransactionReceipt = useGetTransactionReceipt({ transactionId: id });
+  const postGenerateTransactionReceipt = usePostGenerateTransactionReceipt({
+    transactionId: id,
+  });
 
   return (
     <Card className="rounded-lg p-4">
@@ -34,7 +43,22 @@ export default function TransactionListItem({
             <button
               type="button"
               className="cursor-pointer"
-              onClick={() => getTransactionReceipt.mutate()}
+              onClick={() => postGenerateTransactionReceipt.mutate()}
+            >
+              <Badge variant="default" className="py-1">
+                <RefreshCw
+                  className={cn(
+                    postGenerateTransactionReceipt.isPending
+                      ? "animate-spin"
+                      : "animate-none"
+                  )}
+                />
+              </Badge>
+            </button>
+            <button
+              type="button"
+              className="cursor-pointer"
+              onClick={() => postGenerateTransactionReceipt.mutate()}
             >
               <Badge variant="default" className="py-1">
                 <Download />
