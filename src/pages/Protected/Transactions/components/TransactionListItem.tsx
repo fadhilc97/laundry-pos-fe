@@ -12,7 +12,11 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router";
-import { IGetTransaction, usePostGenerateTransactionReceipt } from "@/hooks";
+import {
+  IGetTransaction,
+  useDownloadFile,
+  usePostGenerateTransactionReceipt,
+} from "@/hooks";
 import { CreatePaymentDialog } from "@/components";
 import { cn, TransactionPaymentStatus } from "@/lib";
 
@@ -33,6 +37,7 @@ export default function TransactionListItem({
   const postGenerateTransactionReceipt = usePostGenerateTransactionReceipt({
     transactionId: id,
   });
+  const downloadFile = useDownloadFile();
 
   return (
     <Card className="rounded-lg p-4">
@@ -58,10 +63,20 @@ export default function TransactionListItem({
             <button
               type="button"
               className="cursor-pointer"
-              onClick={() => postGenerateTransactionReceipt.mutate()}
+              onClick={() => {
+                downloadFile.mutate({
+                  endPoint: `/api/v1/transaction/${id}/receipt`,
+                  accept: "application/pdf",
+                  fileName: "receipt.pdf",
+                });
+              }}
             >
               <Badge variant="default" className="py-1">
-                <Download />
+                {downloadFile.isPending ? (
+                  <Loader2 className="animate-spin" />
+                ) : (
+                  <Download />
+                )}
               </Badge>
             </button>
             <Badge variant="default" className="font-semibold capitalize">
