@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { useAxiosPrivate } from "../useAxiosPrivate";
 import { toast } from "sonner";
+import { AxiosError } from "axios";
 
 export interface IDownloadData {
   endPoint: string;
@@ -30,8 +31,12 @@ export function useDownloadFile() {
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
     },
-    onError() {
-      toast.error("Download failed!");
+    onError(error: AxiosError) {
+      if (error.response?.status === 404) {
+        toast.error("File not found!");
+      } else {
+        toast.error("Download failed!");
+      }
     },
   });
 }
