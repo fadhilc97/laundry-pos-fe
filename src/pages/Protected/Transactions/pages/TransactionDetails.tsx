@@ -18,6 +18,10 @@ export default function TransactionDetails() {
   const getTransactionDetails = useGetTransactionDetails({ transactionId });
   const transaction = getTransactionDetails.data?.data.data;
 
+  if (getTransactionDetails.isPending) {
+    return <p>Getting transactions ...</p>;
+  }
+
   if (!transaction) {
     return <p>Transaction not found</p>;
   }
