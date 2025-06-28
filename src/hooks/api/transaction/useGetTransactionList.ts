@@ -5,6 +5,7 @@ import {
   TransactionStatus,
 } from "@/lib";
 import { useQuery } from "@tanstack/react-query";
+import { useSearchParams } from "react-router";
 
 export interface IGetTransaction {
   id: number;
@@ -20,13 +21,15 @@ export interface IGetTransaction {
 }
 
 export function useGetTransactionList() {
+  const [searchParams] = useSearchParams();
   const axiosPrivate = useAxiosPrivate();
 
   return useQuery({
     queryKey: ["transaction"],
     queryFn: async function () {
       return await axiosPrivate.get<ISuccessResponse<IGetTransaction[]>>(
-        "/api/v1/transaction"
+        "/api/v1/transaction",
+        { params: {} }
       );
     },
   });
