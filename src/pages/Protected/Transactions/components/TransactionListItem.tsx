@@ -106,13 +106,12 @@ export default function TransactionListItem({
             {(+totalAmount).toLocaleString("id-ID")}
           </p>
           <div className="flex gap-2">
-            {/* TODO: Show partial payment amount */}
-            {/* {+totalPendingPaidAmount > 0 &&
+            {+totalPendingPaidAmount > 0 &&
               +totalPendingPaidAmount < +totalAmount && (
                 <i className="text-sm font-medium">
                   Pending: {(+totalPendingPaidAmount).toLocaleString("id-ID")}
                 </i>
-              )} */}
+              )}
             <Badge
               variant={
                 paymentStatus === TransactionPaymentStatus.PAID
