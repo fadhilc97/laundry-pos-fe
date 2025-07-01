@@ -22,7 +22,7 @@ export default function TransactionListFilter() {
           <FilterIcon />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="mr-4">
+      <PopoverContent className="mr-4 h-[50vh] overflow-auto">
         <h3 className="font-semibold">Filters</h3>
         <div className="space-y-4 mt-2">
           <div className="space-y-1">
