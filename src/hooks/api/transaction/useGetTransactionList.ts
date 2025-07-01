@@ -23,13 +23,13 @@ export interface IGetTransaction {
 export function useGetTransactionList() {
   const [searchParams] = useSearchParams();
   const axiosPrivate = useAxiosPrivate();
-
+  const searchParamsObject = Object.fromEntries(searchParams);
   return useQuery({
-    queryKey: ["transaction"],
+    queryKey: ["transaction", searchParamsObject],
     queryFn: async function () {
       return await axiosPrivate.get<ISuccessResponse<IGetTransaction[]>>(
         "/api/v1/transaction",
-        { params: {} }
+        { params: searchParamsObject }
       );
     },
   });

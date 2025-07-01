@@ -11,6 +11,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
 import {
   TransactionListFilterFormInputs,
@@ -24,10 +25,11 @@ import { useSearchParams } from "react-router";
 
 export default function TransactionListFilter() {
   const [open, setOpen] = useState<boolean>(false);
-  const [_, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const form = useForm<TransactionListFilterFormInputs>({
     resolver: zodResolver(transactionListFilterSchema),
+    defaultValues: Object.fromEntries(searchParams),
   });
 
   function handleSubmit(value: TransactionListFilterFormInputs) {
@@ -74,7 +76,7 @@ export default function TransactionListFilter() {
                 Service Type
               </Label>
               <Select
-                defaultValue="-"
+                defaultValue={searchParams.get("serviceType") || "-"}
                 onValueChange={(value) =>
                   form.setValue(
                     "serviceType",
@@ -82,7 +84,9 @@ export default function TransactionListFilter() {
                   )
                 }
               >
-                <SelectTrigger className="w-full">All</SelectTrigger>
+                <SelectTrigger className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="-">All</SelectItem>
                   <SelectItem value="REGULAR">Regular</SelectItem>
@@ -97,7 +101,7 @@ export default function TransactionListFilter() {
                 Transaction Status
               </Label>
               <Select
-                defaultValue="-"
+                defaultValue={searchParams.get("transactionStatus") || "-"}
                 onValueChange={(value) =>
                   form.setValue(
                     "transactionStatus",
@@ -105,7 +109,9 @@ export default function TransactionListFilter() {
                   )
                 }
               >
-                <SelectTrigger className="w-full">All</SelectTrigger>
+                <SelectTrigger className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="-">All</SelectItem>
                   <SelectItem value="CHECK_IN">Check-in</SelectItem>
@@ -121,7 +127,7 @@ export default function TransactionListFilter() {
                 Payment Status
               </Label>
               <Select
-                defaultValue="-"
+                defaultValue={searchParams.get("paymentStatus") || "-"}
                 onValueChange={(value) =>
                   form.setValue(
                     "paymentStatus",
@@ -129,7 +135,9 @@ export default function TransactionListFilter() {
                   )
                 }
               >
-                <SelectTrigger className="w-full">All</SelectTrigger>
+                <SelectTrigger className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="-">All</SelectItem>
                   <SelectItem value="PAID">Paid</SelectItem>
