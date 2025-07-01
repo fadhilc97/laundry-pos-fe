@@ -44,6 +44,11 @@ export default function TransactionListFilter() {
     setOpen(false);
   }
 
+  function handleReset() {
+    form.reset();
+    setSearchParams({});
+  }
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -146,7 +151,15 @@ export default function TransactionListFilter() {
               </Select>
             </div>
           </div>
-          <div className="flex mt-4 justify-end">
+          <div className="flex mt-4 justify-end gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              className="font-semibold"
+              onClick={handleReset}
+            >
+              Reset
+            </Button>
             <Button type="submit" variant="default" className="font-semibold">
               Apply
             </Button>
