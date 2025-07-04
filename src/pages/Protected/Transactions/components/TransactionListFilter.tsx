@@ -40,13 +40,13 @@ export default function TransactionListFilter() {
         filters[key] = value;
       }
     }
-    setSearchParams(filters);
+    setSearchParams({ ...filters, page: "1" });
     setOpen(false);
   }
 
   function handleReset() {
     form.reset();
-    setSearchParams({});
+    setSearchParams({ page: "1" });
   }
 
   return (
