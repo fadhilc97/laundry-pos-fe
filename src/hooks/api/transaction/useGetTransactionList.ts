@@ -1,5 +1,6 @@
 import { useAxiosPrivate } from "@/hooks/useAxiosPrivate";
 import {
+  IPagination,
   ISuccessResponse,
   TransactionPaymentStatus,
   TransactionStatus,
@@ -20,6 +21,10 @@ export interface IGetTransaction {
   currency: string;
 }
 
+export interface IMetadata {
+  pagination: IPagination;
+}
+
 export function useGetTransactionList() {
   const [searchParams] = useSearchParams();
   const axiosPrivate = useAxiosPrivate();
@@ -27,10 +32,9 @@ export function useGetTransactionList() {
   return useQuery({
     queryKey: ["transaction", searchParamsObject],
     queryFn: async function () {
-      return await axiosPrivate.get<ISuccessResponse<IGetTransaction[]>>(
-        "/api/v1/transaction",
-        { params: searchParamsObject }
-      );
+      return await axiosPrivate.get<
+        ISuccessResponse<IGetTransaction[], IMetadata>
+      >("/api/v1/transaction", { params: searchParamsObject });
     },
   });
 }
