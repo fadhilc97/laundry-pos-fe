@@ -1,11 +1,23 @@
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { IGetTransactionDetail } from "@/hooks";
+import { IGetTransactionDetail, useDownloadFile } from "@/hooks";
+import { Download, Loader2 } from "lucide-react";
 
 type Props = {
   transaction: IGetTransactionDetail | undefined;
 };
 
 export default function ListItems({ transaction }: Props) {
+  const downloadFile = useDownloadFile();
+
+  function handleDownload() {
+    downloadFile.mutate({
+      endPoint: `/api/v1/transaction/${transaction?.id}/receipt`,
+      accept: "application/pdf",
+      fileName: "receipt.pdf",
+    });
+  }
+
   return (
     <Card className="p-3 rounded-lg border">
       <div className="divide-y">
@@ -53,6 +65,21 @@ export default function ListItems({ transaction }: Props) {
           </p>
         </div>
       </div>
+      {/* TODO: Provide generate receipt button conditionally */}
+      <Button
+        type="button"
+        onClick={handleDownload}
+        variant="default"
+        className="w-full font-semibold"
+        disabled={downloadFile.isPending}
+      >
+        {downloadFile.isPending ? (
+          <Loader2 className="animate-spin" />
+        ) : (
+          <Download />
+        )}{" "}
+        Download Receipt
+      </Button>
     </Card>
   );
 }
