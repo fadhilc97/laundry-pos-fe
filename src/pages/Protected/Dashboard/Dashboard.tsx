@@ -1,3 +1,4 @@
+import PaymentSummary from "./components/PaymentSummary";
 import QuickAccessMenu from "./components/QuickAccessMenu";
 import { TransactionSummary } from "./components/TransactionSummary";
 
@@ -6,6 +7,7 @@ export default function Dashboard() {
     <div className="space-y-2 p-4">
       <QuickAccessMenu />
       <TransactionSummary />
+      <PaymentSummary />
     </div>
   );
 }
