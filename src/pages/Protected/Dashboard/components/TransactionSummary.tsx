@@ -12,7 +12,7 @@ export function TransactionSummary() {
     <Card className="rounded-lg justify-around p-4">
       <div className="flex flex-col">
         <span className="text-4xl font-semibold text-center">20</span>{" "}
-        <div className="flex gap-2 justify-center items-center font-semibold text-sm">
+        <div className="flex gap-2 justify-center items-center font-semibold">
           <ArrowUpDown size={14} />
           <span className="text-center">Transactions</span>
         </div>
@@ -21,14 +21,14 @@ export function TransactionSummary() {
         <div className="grid grid-cols-2 divide-x gap-4">
           <div className="py-4 flex flex-col">
             <span className="text-lg font-semibold text-center">20</span>{" "}
-            <div className="flex gap-2 justify-center items-center text-sm">
+            <div className="flex gap-2 justify-center items-center text-sm font-semibold">
               <LogIn size={14} />
               <span className="text-center">Check-in</span>
             </div>
           </div>
           <div className="py-4 flex flex-col">
             <span className="text-lg font-semibold text-center">20</span>{" "}
-            <div className="flex gap-2 justify-center items-center text-sm">
+            <div className="flex gap-2 justify-center items-center text-sm font-semibold">
               <LucideRefreshCw size={14} />{" "}
               <span className="text-center">In-process</span>
             </div>
@@ -37,14 +37,14 @@ export function TransactionSummary() {
         <div className="grid grid-cols-2 divide-x gap-4">
           <div className="flex py-4 flex-col">
             <span className="text-lg font-semibold text-center">20</span>{" "}
-            <div className="flex gap-2 justify-center items-center text-sm">
+            <div className="flex gap-2 justify-center items-center text-sm font-semibold">
               <CheckSquare size={14} />
               <span className="text-center">Finished</span>
             </div>
           </div>
           <div className="flex py-4 flex-col">
             <span className="text-lg font-semibold text-center">20</span>{" "}
-            <div className="flex gap-2 justify-center items-center text-sm">
+            <div className="flex gap-2 justify-center items-center text-sm font-semibold">
               <LogOut size={14} />
               <span className="text-center">Check-out</span>
             </div>
