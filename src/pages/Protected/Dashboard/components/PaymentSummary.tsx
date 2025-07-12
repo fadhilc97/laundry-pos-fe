@@ -1,6 +1,9 @@
 import { ChartPieLegend } from "@/components";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { useGetDashboard } from "@/hooks";
 import _ from "lodash";
+import { Link } from "react-router";
 import { PieSectorData } from "recharts/types/polar/Pie";
 import { GeometrySector } from "recharts/types/util/types";
 
@@ -64,7 +67,7 @@ export default function PaymentSummary() {
     },
   ];
 
-  return (
+  return (paymentAggregateData?.sumAmount as number) > 0 ? (
     <ChartPieLegend
       title="Transaction Stats"
       description={`With total ${paymentAggregateData?.sumAmount.toLocaleString(
@@ -76,5 +79,26 @@ export default function PaymentSummary() {
       dataKey="amount"
       legendNameKey="paymentStatus"
     />
+  ) : (
+    <Card>
+      <div className="space-y-0 px-4 flex flex-col justify-center items-center">
+        <p className="text-center font-semibold">
+          Payment pie chart data not available.
+        </p>
+        <p className="text-center text-sm">
+          Please create your first transaction
+        </p>
+        <Link to="/transactions/create">
+          <Button
+            type="button"
+            variant="default"
+            size="sm"
+            className="w-full font-semibold mt-4"
+          >
+            Create New Order
+          </Button>
+        </Link>
+      </div>
+    </Card>
   );
 }
