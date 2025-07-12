@@ -1,11 +1,12 @@
 import { NavLink } from "react-router";
 import { Home, ArrowLeftRight, Users, Menu } from "lucide-react";
-import { cn } from "@/lib";
+import { cn, Role } from "@/lib";
 
 export type NavMenuItem = {
   url: string;
   icon: React.ReactElement;
   label: string;
+  accessRoles?: Role[];
 };
 
 const NAV_MENU_ITEMS: NavMenuItem[] = [

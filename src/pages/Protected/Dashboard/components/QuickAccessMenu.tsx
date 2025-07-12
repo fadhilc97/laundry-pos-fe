@@ -2,19 +2,47 @@ import { ArrowLeftRight, Users, ShoppingBag } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Link } from "react-router";
 import { NavMenuItem } from "@/components/NavMenus/NavMenus";
+import { Role } from "@/lib";
+import { use } from "react";
+import { AuthContext } from "@/contexts";
 
-type QuickAccessMenuItems = NavMenuItem;
+type QuickAccessMenuItem = NavMenuItem;
 
-const QUICE_ACCESS_MENU_ITEMS: QuickAccessMenuItems[] = [
-  { url: "/transactions", icon: <ArrowLeftRight />, label: "Orders" },
-  { url: "/customers", icon: <Users />, label: "Customers" },
-  { url: "/products", icon: <ShoppingBag />, label: "Products" },
+const QUICE_ACCESS_MENU_ITEMS: QuickAccessMenuItem[] = [
+  {
+    url: "/transactions",
+    icon: <ArrowLeftRight />,
+    label: "Orders",
+    accessRoles: [Role.OWNER, Role.STAFF],
+  },
+  {
+    url: "/customers",
+    icon: <Users />,
+    label: "Customers",
+    accessRoles: [Role.OWNER, Role.STAFF],
+  },
+  {
+    url: "/products",
+    icon: <ShoppingBag />,
+    label: "Products",
+    accessRoles: [Role.OWNER],
+  },
 ];
 
 export default function QuickAccessMenu() {
+  const authContext = use(AuthContext);
+  const userRoles = authContext.roles;
+
+  function filterMenuItem(menuItem: QuickAccessMenuItem): boolean {
+    return (
+      !menuItem.accessRoles ||
+      menuItem.accessRoles.some((role) => userRoles?.includes(role))
+    );
+  }
+
   return (
     <Card className="rounded-lg flex-row justify-around p-4">
-      {QUICE_ACCESS_MENU_ITEMS.map((menuItem) => (
+      {QUICE_ACCESS_MENU_ITEMS.filter(filterMenuItem).map((menuItem) => (
         <div key={menuItem.url} className="gap-2 flex flex-col items-center">
           <Link
             to={menuItem.url}
