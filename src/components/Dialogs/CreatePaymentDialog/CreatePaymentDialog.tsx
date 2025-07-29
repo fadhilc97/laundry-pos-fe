@@ -38,7 +38,7 @@ export default function CreatePaymentDialog({
       </DialogTrigger>
       <DialogContent className="overflow-auto">
         <DialogHeader className="text-left">
-          <DialogTitle>Set Location</DialogTitle>
+          <DialogTitle>Create Payment</DialogTitle>
           <DialogDescription>
             Choose the location where the finished order should be put.
           </DialogDescription>
