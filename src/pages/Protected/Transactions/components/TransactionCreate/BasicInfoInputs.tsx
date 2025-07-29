@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Combobox } from "@/components/ui/combobox";
 import { Label } from "@/components/ui/label";
@@ -31,12 +32,19 @@ export default function BasicInfoInputs() {
       <div className="space-y-4">
         <div className="space-y-1">
           <Label htmlFor="customerId">Customer</Label>
-          <Combobox
-            options={customerOptions || []}
-            selectMessage="Select customer..."
-            onSelect={(value) => formContext.setValue("customerId", +value)}
-            isError={!!formContext.formState.errors.customerId}
-          />
+          <div className="flex items-center gap-2">
+            <div className="w-full">
+              <Combobox
+                options={customerOptions || []}
+                selectMessage="Select customer..."
+                onSelect={(value) => formContext.setValue("customerId", +value)}
+                isError={!!formContext.formState.errors.customerId}
+              />
+            </div>
+            <Button type="button" color="default" size="sm">
+              +
+            </Button>
+          </div>
           {formContext.formState.errors.customerId && (
             <p className="text-xs font-medium text-red-500">
               {formContext.formState.errors.customerId.message}
