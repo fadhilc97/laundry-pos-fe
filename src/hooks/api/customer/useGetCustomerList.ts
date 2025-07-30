@@ -7,6 +7,7 @@ export interface ICustomer {
   name: string;
   address: string;
   createdAt: string;
+  whatsappPhone: string;
 }
 
 export function useGetCustomerList() {

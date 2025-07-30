@@ -10,6 +10,7 @@ import {
   Transactions,
   TransactionDetails,
   TransactionCreate,
+  Customers,
 } from "@/pages";
 import { AuthRoute, PersistLoginRoute, UserRolesRoute } from "@/routes";
 import { Role } from "@/lib";
@@ -38,10 +39,7 @@ export default function App() {
                     element={<TransactionDetails />}
                   />
                 </Route>
-                <Route
-                  path="/customers"
-                  element={<p>TODO: Create customers page here</p>}
-                />
+                <Route path="/customers" element={<Customers />} />
                 <Route path="/others">
                   <Route index element={<Others />} />
                   <Route path="my-laundry" element={<MyLaundry />} />
