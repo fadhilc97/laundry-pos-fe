@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import CreateCustomerDialog from "@/components/Dialogs/CreateCustomerDialog/CreateCustomerDialog";
 import { Card } from "@/components/ui/card";
 import { Combobox } from "@/components/ui/combobox";
 import { Label } from "@/components/ui/label";
@@ -41,9 +41,7 @@ export default function BasicInfoInputs() {
                 isError={!!formContext.formState.errors.customerId}
               />
             </div>
-            <Button type="button" color="default" size="sm">
-              +
-            </Button>
+            <CreateCustomerDialog />
           </div>
           {formContext.formState.errors.customerId && (
             <p className="text-xs font-medium text-red-500">
