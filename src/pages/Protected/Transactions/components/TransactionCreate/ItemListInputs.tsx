@@ -1,9 +1,9 @@
+import { SpinnerText } from "@/components";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useGetProductList } from "@/hooks";
 import { cn, CreateTransactionFormInputs } from "@/lib";
-import { Loader2 } from "lucide-react";
 import { useFormContext } from "react-hook-form";
 import { NumericFormat } from "react-number-format";
 
@@ -108,12 +108,7 @@ export default function ItemListInputs() {
       <div className="space-y-2">
         <h1 className="text-lg font-semibold">Items</h1>
         <div className="space-y-2 max-h-[37vh] overflow-auto">
-          {getProductList.isPending && (
-            <p className="flex items-center gap-1 justify-center">
-              <Loader2 className="animate-spin" />
-              <span>Please wait</span>
-            </p>
-          )}
+          {getProductList.isPending && <SpinnerText text="Please wait" />}
           {products?.map((product) => (
             <Card key={product.id} className="p-3 rounded-lg border">
               <div className="flex justify-between gap-2">
