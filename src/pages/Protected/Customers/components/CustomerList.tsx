@@ -1,5 +1,6 @@
 import { useGetCustomerList } from "@/hooks";
 import CustomerListItem from "./CustomerListItem";
+import { SpinnerText } from "@/components";
 
 export default function CustomerList() {
   const getCustomerList = useGetCustomerList();
@@ -10,6 +11,7 @@ export default function CustomerList() {
       <div className="flex justify-between">
         <h1 className="font-semibold items-center text-md">Customer List</h1>
       </div>
+      {getCustomerList.isPending && <SpinnerText text="Please wait" />}
       {customers?.map((customer) => (
         <CustomerListItem
           key={customer.id}
