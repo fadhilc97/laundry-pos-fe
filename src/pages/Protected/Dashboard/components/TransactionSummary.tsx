@@ -8,6 +8,7 @@ import {
 import { Card } from "@/components/ui/card";
 import { useGetDashboard } from "@/hooks";
 import { TransactionStatus } from "@/lib";
+import { SpinnerText } from "@/components";
 
 export function TransactionSummary() {
   const getDashboard = useGetDashboard();
@@ -30,7 +31,9 @@ export function TransactionSummary() {
     );
   }
 
-  return (
+  return getDashboard.isPending ? (
+    <SpinnerText text="Please wait" />
+  ) : (
     <Card className="rounded-lg justify-around p-4">
       <div className="flex flex-col">
         <span className="text-4xl font-semibold text-center">
