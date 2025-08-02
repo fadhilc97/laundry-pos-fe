@@ -23,7 +23,7 @@ export default function CreateCustomerDialog() {
         <DialogHeader className="text-left">
           <DialogTitle>Create Customer</DialogTitle>
         </DialogHeader>
-        <CreateCustomerForm />
+        <CreateCustomerForm onSuccess={() => setOpen(false)} />
       </DialogContent>
     </Dialog>
   );

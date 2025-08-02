@@ -10,7 +10,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 
-export default function CreateCustomerForm() {
+type Props = {
+  onSuccess: () => void;
+};
+
+export default function CreateCustomerForm({ onSuccess }: Props) {
   const {
     register,
     handleSubmit,
@@ -21,11 +25,11 @@ export default function CreateCustomerForm() {
   const postCreateCustomer = usePostCreateCustomer();
 
   function onSubmit(values: CreateUpdateCustomerInputs) {
-    postCreateCustomer.mutate(values);
+    postCreateCustomer.mutate(values, { onSuccess });
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form>
       <Card className="p-3 rounded-lg border">
         <div className="space-y-4">
           <div className="space-y-1">
@@ -79,9 +83,10 @@ export default function CreateCustomerForm() {
       </Card>
       <DialogFooter className="mt-3">
         <Button
-          type="submit"
+          type="button"
           variant="default"
           className="font-semibold"
+          onClick={handleSubmit(onSubmit)}
           disabled={postCreateCustomer.isPending}
         >
           {postCreateCustomer.isPending && <Loader2 className="animate-spin" />}
