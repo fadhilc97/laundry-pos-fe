@@ -46,6 +46,7 @@ export interface IGetTransactionDetail {
       };
     }[];
   };
+  receiptPath: string;
   pendingPaid: number;
 }
 

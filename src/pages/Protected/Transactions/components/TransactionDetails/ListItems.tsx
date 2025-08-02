@@ -65,20 +65,19 @@ export default function ListItems({ transaction }: Props) {
           </p>
         </div>
       </div>
-      {/* TODO: Provide generate receipt button conditionally */}
       <Button
         type="button"
         onClick={handleDownload}
         variant="default"
         className="w-full font-semibold"
-        disabled={downloadFile.isPending}
+        disabled={downloadFile.isPending || !transaction?.receiptPath}
       >
         {downloadFile.isPending ? (
           <Loader2 className="animate-spin" />
         ) : (
           <Download />
         )}{" "}
-        Download Receipt
+        {!transaction?.receiptPath ? "Processing Receipt" : "Download Receipt"}
       </Button>
     </Card>
   );
