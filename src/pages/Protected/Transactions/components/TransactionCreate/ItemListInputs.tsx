@@ -154,7 +154,8 @@ export default function ItemListInputs() {
                   className="w-1/4 text-center"
                   customInput={Input}
                   defaultValue={0}
-                  decimalScale={1}
+                  decimalScale={product.quantityUnit.decimalPlaces}
+                  fixedDecimalScale
                   allowNegative={false}
                 />
                 <Button

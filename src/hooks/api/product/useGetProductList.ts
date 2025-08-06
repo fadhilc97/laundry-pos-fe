@@ -10,6 +10,7 @@ export interface IProduct {
   quantityUnit: {
     id: number;
     shortName: string;
+    decimalPlaces: number;
   };
 }
 
