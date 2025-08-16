@@ -11,8 +11,8 @@ import {
   TransactionDetails,
   TransactionCreate,
   Customers,
-  Users,
-  UsersCreateOrUpdate,
+  User,
+  UserCreateOrUpdate,
 } from "@/pages";
 import { AuthRoute, PersistLoginRoute, UserRolesRoute } from "@/routes";
 import { Role } from "@/lib";
@@ -55,12 +55,12 @@ export default function App() {
 
               {/* Accessible to SUPER ADMIN only */}
               <Route element={<UserRolesRoute roles={[Role.SUPER_ADMIN]} />}>
-                <Route path="/users">
-                  <Route index element={<Users />} />
-                  <Route path="create" element={<UsersCreateOrUpdate />} />
+                <Route path="/user">
+                  <Route index element={<User />} />
+                  <Route path="create" element={<UserCreateOrUpdate />} />
                   <Route
                     path="update/:userId"
-                    element={<UsersCreateOrUpdate />}
+                    element={<UserCreateOrUpdate />}
                   />
                 </Route>
               </Route>

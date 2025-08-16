@@ -1,4 +1,4 @@
-import { ArrowLeftRight, Users, ShoppingBag } from "lucide-react";
+import { ArrowLeftRight, Users, ShoppingBag, Users2 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Link } from "react-router";
 import { NavMenuItem } from "@/components/NavMenus/NavMenus";
@@ -26,6 +26,12 @@ const QUICE_ACCESS_MENU_ITEMS: QuickAccessMenuItem[] = [
     icon: <ShoppingBag />,
     label: "Products",
     accessRoles: [Role.OWNER],
+  },
+  {
+    url: "/user",
+    icon: <Users2 />,
+    label: "User",
+    accessRoles: [Role.SUPER_ADMIN],
   },
 ];
 
