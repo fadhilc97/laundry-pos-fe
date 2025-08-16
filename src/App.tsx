@@ -11,6 +11,8 @@ import {
   TransactionDetails,
   TransactionCreate,
   Customers,
+  Users,
+  UsersCreateOrUpdate,
 } from "@/pages";
 import { AuthRoute, PersistLoginRoute, UserRolesRoute } from "@/routes";
 import { Role } from "@/lib";
@@ -27,22 +29,39 @@ export default function App() {
         <Route element={<PersistLoginRoute />}>
           <Route element={<AuthRoute />}>
             <Route element={<MainLayout />}>
+              {/* Accessible to anyone */}
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/transactions">
+                <Route index element={<Transactions />} />
+                <Route
+                  path="details/:transactionId"
+                  element={<TransactionDetails />}
+                />
+              </Route>
+              <Route path="/customers" element={<Customers />} />
+              <Route path="/others" element={<Others />} />
+
+              {/* Accessible to OWNER and STAFF only */}
               <Route
                 element={<UserRolesRoute roles={[Role.OWNER, Role.STAFF]} />}
               >
-                <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/transactions">
-                  <Route index element={<Transactions />} />
                   <Route path="create" element={<TransactionCreate />} />
-                  <Route
-                    path="details/:transactionId"
-                    element={<TransactionDetails />}
-                  />
                 </Route>
-                <Route path="/customers" element={<Customers />} />
                 <Route path="/others">
-                  <Route index element={<Others />} />
                   <Route path="my-laundry" element={<MyLaundry />} />
+                </Route>
+              </Route>
+
+              {/* Accessible to SUPER ADMIN only */}
+              <Route element={<UserRolesRoute roles={[Role.SUPER_ADMIN]} />}>
+                <Route path="/users">
+                  <Route index element={<Users />} />
+                  <Route path="create" element={<UsersCreateOrUpdate />} />
+                  <Route
+                    path="update/:userId"
+                    element={<UsersCreateOrUpdate />}
+                  />
                 </Route>
               </Route>
             </Route>
