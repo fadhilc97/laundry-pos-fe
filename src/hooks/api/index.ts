@@ -6,3 +6,5 @@ export * from "./customer";
 export * from "./product";
 export * from "./location";
 export * from "./dashboard";
+export * from "./users";
+export * from "./super-admin";
