@@ -6,19 +6,36 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { UpdateUserDialog } from "@/components";
+import { useState } from "react";
 
 export default function UserListItemActions() {
+  const [open, setOpen] = useState<boolean>(false);
+  const [openUpdateUserDialog, setOpenUpdateUserDialog] =
+    useState<boolean>(false);
+
+  function handleOpenEdit() {
+    setOpenUpdateUserDialog(true);
+    setOpen(false);
+  }
+
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button type="button" variant="outline" size="icon">
-          <EllipsisVerticalIcon />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem>Edit</DropdownMenuItem>
-        <DropdownMenuItem>Reset Password</DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <>
+      <DropdownMenu open={open} onOpenChange={setOpen}>
+        <DropdownMenuTrigger asChild>
+          <Button type="button" variant="outline" size="icon">
+            <EllipsisVerticalIcon />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem onClick={handleOpenEdit}>Edit</DropdownMenuItem>
+          <DropdownMenuItem>Reset Password</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <UpdateUserDialog
+        open={openUpdateUserDialog}
+        setOpen={setOpenUpdateUserDialog}
+      />
+    </>
   );
 }
