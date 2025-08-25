@@ -4,12 +4,13 @@ import { Mail, User } from "lucide-react";
 import UserListItemActions from "./UserListItemActions";
 
 type Props = {
+  id: number;
   name: string;
   email: string;
   roles: { id: number; name: string }[];
 };
 
-export default function UserListItem({ name, email, roles }: Props) {
+export default function UserListItem({ id, name, email, roles }: Props) {
   return (
     <Card className="rounded-lg p-4">
       <div className="space-y-1 divide-y">
@@ -18,7 +19,7 @@ export default function UserListItem({ name, email, roles }: Props) {
             <User />
             <h2 className="font-semibold text-xl">{name}</h2>
           </div>
-          <UserListItemActions />
+          <UserListItemActions id={id} />
         </div>
         <div className="py-2 space-y-3">
           <div className="flex gap-2 items-center">

@@ -9,7 +9,11 @@ import {
 import { UpdateUserDialog } from "@/components";
 import { useState } from "react";
 
-export default function UserListItemActions() {
+type Props = {
+  id: number;
+};
+
+export default function UserListItemActions({ id }: Props) {
   const [open, setOpen] = useState<boolean>(false);
   const [openUpdateUserDialog, setOpenUpdateUserDialog] =
     useState<boolean>(false);
@@ -28,11 +32,14 @@ export default function UserListItemActions() {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={handleOpenEdit}>Edit</DropdownMenuItem>
+          <DropdownMenuItem onClick={handleOpenEdit}>
+            Edit Role
+          </DropdownMenuItem>
           <DropdownMenuItem>Reset Password</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
       <UpdateUserDialog
+        id={id}
         open={openUpdateUserDialog}
         setOpen={setOpenUpdateUserDialog}
       />

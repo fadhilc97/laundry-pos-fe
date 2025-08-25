@@ -16,6 +16,7 @@ export default function UserList() {
         users?.map((user) => (
           <UserListItem
             key={user.id}
+            id={user.id}
             name={user.name}
             email={user.email}
             roles={user.roles}
