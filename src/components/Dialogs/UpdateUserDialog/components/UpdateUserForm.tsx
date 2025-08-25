@@ -8,14 +8,19 @@ import { UpdateUserFormInputs, updateUserSchema } from "@/lib";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { useSearchParams } from "react-router";
 
 type Props = {
-  id: number;
   onSuccess: () => void;
 };
 
-export default function UpdateUserForm({ id, onSuccess }: Props) {
-  const getUserDetail = useGetUserDetail(id);
+export default function UpdateUserForm({ onSuccess }: Props) {
+  const [searchParams] = useSearchParams();
+  const userId = searchParams.get("userId") as string;
+
+  const getListRole = useGetListRole();
+  const putUpdateUser = usePutUpdateUser(userId);
+  const getUserDetail = useGetUserDetail(userId);
   const userData = getUserDetail.data?.data.data;
 
   const {
@@ -29,10 +34,6 @@ export default function UpdateUserForm({ id, onSuccess }: Props) {
     },
     resolver: zodResolver(updateUserSchema),
   });
-
-  const getListRole = useGetListRole();
-
-  const putUpdateUser = usePutUpdateUser(id);
 
   function onSubmit(values: UpdateUserFormInputs) {
     putUpdateUser.mutate(values, { onSuccess });

@@ -5,7 +5,7 @@ import { toast } from "sonner";
 
 export interface IPutUpdateUserResponse extends ISuccessResponse {}
 
-export function usePutUpdateUser(id: number) {
+export function usePutUpdateUser(id: string) {
   const axiosPrivate = useAxiosPrivate();
   const queryClient = useQueryClient();
 

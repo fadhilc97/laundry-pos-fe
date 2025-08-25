@@ -7,21 +7,30 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { UpdateUserDialog } from "@/components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router";
 
 type Props = {
   id: number;
 };
 
 export default function UserListItemActions({ id }: Props) {
+  const [_, setSearchParams] = useSearchParams();
   const [open, setOpen] = useState<boolean>(false);
   const [openUpdateUserDialog, setOpenUpdateUserDialog] =
     useState<boolean>(false);
 
   function handleOpenEdit() {
+    setSearchParams({ userId: id.toString() });
     setOpenUpdateUserDialog(true);
     setOpen(false);
   }
+
+  useEffect(() => {
+    if (!openUpdateUserDialog) {
+      setSearchParams({});
+    }
+  }, [openUpdateUserDialog]);
 
   return (
     <>
@@ -39,7 +48,6 @@ export default function UserListItemActions({ id }: Props) {
         </DropdownMenuContent>
       </DropdownMenu>
       <UpdateUserDialog
-        id={id}
         open={openUpdateUserDialog}
         setOpen={setOpenUpdateUserDialog}
       />

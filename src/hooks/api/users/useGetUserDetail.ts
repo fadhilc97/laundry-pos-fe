@@ -2,7 +2,7 @@ import { IGetUser, useAxiosPrivate } from "@/hooks";
 import { ISuccessResponse } from "@/lib";
 import { useQuery } from "@tanstack/react-query";
 
-export function useGetUserDetail(id: number) {
+export function useGetUserDetail(id: string) {
   const axiosPrivate = useAxiosPrivate();
 
   return useQuery({
@@ -12,5 +12,6 @@ export function useGetUserDetail(id: number) {
         `/api/v1/user/${id}`
       );
     },
+    enabled: !!id,
   });
 }
