@@ -52,6 +52,14 @@ export default function App() {
                 <Route path="/others">
                   <Route path="my-laundry">
                     <Route index element={<MyLaundry />} />
+                  </Route>
+                </Route>
+              </Route>
+
+              {/* Accessible to OWNER ONLY */}
+              <Route element={<UserRolesRoute roles={[Role.OWNER]} />}>
+                <Route path="/others">
+                  <Route path="my-laundry">
                     <Route path="edit" element={<EditMyLaundry />} />
                   </Route>
                 </Route>
