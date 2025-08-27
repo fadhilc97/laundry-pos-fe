@@ -13,6 +13,7 @@ import {
   Customers,
   User,
   UserCreateOrUpdate,
+  EditMyLaundry,
 } from "@/pages";
 import { AuthRoute, PersistLoginRoute, UserRolesRoute } from "@/routes";
 import { Role } from "@/lib";
@@ -49,7 +50,10 @@ export default function App() {
                   <Route path="create" element={<TransactionCreate />} />
                 </Route>
                 <Route path="/others">
-                  <Route path="my-laundry" element={<MyLaundry />} />
+                  <Route path="my-laundry">
+                    <Route index element={<MyLaundry />} />
+                    <Route path="edit" element={<EditMyLaundry />} />
+                  </Route>
                 </Route>
               </Route>
 
