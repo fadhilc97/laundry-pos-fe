@@ -7,6 +7,12 @@ export interface IGetLaundryResponse {
   name: string;
   address: string;
   imageUrl: string | null;
+  currency: string;
+  contacts: {
+    id: number;
+    name: string;
+    details: string;
+  }[];
 }
 
 export function useGetMyLaundry() {
