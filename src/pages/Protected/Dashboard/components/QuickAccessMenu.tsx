@@ -33,6 +33,12 @@ const QUICE_ACCESS_MENU_ITEMS: QuickAccessMenuItem[] = [
     label: "User",
     accessRoles: [Role.SUPER_ADMIN],
   },
+  {
+    url: "/user",
+    icon: <Users2 />,
+    label: "Staff",
+    accessRoles: [Role.OWNER],
+  },
 ];
 
 export default function QuickAccessMenu() {
@@ -47,7 +53,7 @@ export default function QuickAccessMenu() {
   }
 
   return (
-    <Card className="rounded-lg flex-row justify-around p-4">
+    <Card className="rounded-lg flex-row justify-around p-4 overflow-auto">
       {QUICE_ACCESS_MENU_ITEMS.filter(filterMenuItem).map((menuItem) => (
         <div key={menuItem.url} className="gap-2 flex flex-col items-center">
           <Link
