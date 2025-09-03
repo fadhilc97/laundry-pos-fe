@@ -7,14 +7,17 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { UpdateUserDialog } from "@/components";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
+import { AuthContext } from "@/contexts";
+import { Role } from "@/lib";
 
 type Props = {
   id: number;
 };
 
 export default function UserListItemActions({ id }: Props) {
+  const authContext = use(AuthContext);
   const [_, setSearchParams] = useSearchParams();
   const [open, setOpen] = useState<boolean>(false);
   const [openUpdateUserDialog, setOpenUpdateUserDialog] =
@@ -41,9 +44,16 @@ export default function UserListItemActions({ id }: Props) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={handleOpenEdit}>
-            Edit Role
-          </DropdownMenuItem>
+          {authContext.roles?.includes(Role.SUPER_ADMIN) && (
+            <DropdownMenuItem onClick={handleOpenEdit}>
+              Edit Role
+            </DropdownMenuItem>
+          )}
+          {authContext.roles?.includes(Role.OWNER) && (
+            <DropdownMenuItem className="text-destructive">
+              Delete Staff
+            </DropdownMenuItem>
+          )}
           <DropdownMenuItem>Reset Password</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
