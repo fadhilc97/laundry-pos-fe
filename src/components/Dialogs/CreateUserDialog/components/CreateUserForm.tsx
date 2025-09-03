@@ -4,10 +4,12 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { AuthContext } from "@/contexts";
 import { useGetListRole, usePostCreateUser } from "@/hooks";
-import { CreateUserFormInputs, createUserSchema } from "@/lib";
+import { CreateUserFormInputs, createUserSchema, Role } from "@/lib";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
+import { use, useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 type Props = {
@@ -15,6 +17,11 @@ type Props = {
 };
 
 export default function CreateUserForm({ onSuccess }: Props) {
+  const authContext = use(AuthContext);
+
+  const getListRole = useGetListRole();
+  const postCreateUser = usePostCreateUser();
+
   const {
     register,
     handleSubmit,
@@ -27,13 +34,20 @@ export default function CreateUserForm({ onSuccess }: Props) {
     },
     resolver: zodResolver(createUserSchema),
   });
-  const getListRole = useGetListRole();
-
-  const postCreateUser = usePostCreateUser();
 
   function onSubmit(values: CreateUserFormInputs) {
     postCreateUser.mutate(values, { onSuccess });
   }
+
+  useEffect(() => {
+    // Checkmark the "Staff" role by default for OWNER user
+    if (!getListRole.isPending && authContext.roles?.includes(Role.OWNER)) {
+      const role = getListRole.data?.data.data?.find(
+        (roleData) => roleData.identifier === Role.STAFF
+      );
+      if (role) setValue("roleIds", [role.id]);
+    }
+  }, [getListRole.isPending]);
 
   return (
     <form>

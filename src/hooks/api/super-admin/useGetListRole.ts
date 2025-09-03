@@ -1,10 +1,11 @@
 import { useAxiosPrivate } from "@/hooks";
-import { ISuccessResponse } from "@/lib";
+import { ISuccessResponse, Role } from "@/lib";
 import { useQuery } from "@tanstack/react-query";
 
 export interface IGetListRoleResponse {
   id: number;
   name: string;
+  identifier: Role;
 }
 
 export function useGetListRole() {
