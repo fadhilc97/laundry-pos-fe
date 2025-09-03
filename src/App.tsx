@@ -66,7 +66,11 @@ export default function App() {
               </Route>
 
               {/* Accessible to SUPER ADMIN only */}
-              <Route element={<UserRolesRoute roles={[Role.SUPER_ADMIN]} />}>
+              <Route
+                element={
+                  <UserRolesRoute roles={[Role.SUPER_ADMIN, Role.OWNER]} />
+                }
+              >
                 <Route path="/user">
                   <Route index element={<User />} />
                   <Route path="create" element={<UserCreateOrUpdate />} />
