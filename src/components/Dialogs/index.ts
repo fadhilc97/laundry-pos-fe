@@ -3,3 +3,4 @@ export { default as SetLocationDialog } from "./SetLocationDialog/SetLocationDia
 export { default as CreatePaymentDialog } from "./CreatePaymentDialog/CreatePaymentDialog";
 export { default as CreateUserDialog } from "./CreateUserDialog/CreateUserDialog";
 export { default as UpdateUserDialog } from "./UpdateUserDialog/UpdateUserDialog";
+export { default as ConfirmInactiveUserDialog } from "./ConfirmInactiveUserDialog/ConfirmInactiveUserDialog";

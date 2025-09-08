@@ -19,6 +19,7 @@ export default function UserList() {
             id={user.id}
             name={user.name}
             email={user.email}
+            isActive={user.isActive}
             roles={user.roles}
           />
         ))

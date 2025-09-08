@@ -7,10 +7,17 @@ type Props = {
   id: number;
   name: string;
   email: string;
+  isActive: boolean;
   roles: { id: number; name: string }[];
 };
 
-export default function UserListItem({ id, name, email, roles }: Props) {
+export default function UserListItem({
+  id,
+  name,
+  email,
+  roles,
+  isActive,
+}: Props) {
   return (
     <Card className="rounded-lg p-4">
       <div className="space-y-1 divide-y">
@@ -19,7 +26,15 @@ export default function UserListItem({ id, name, email, roles }: Props) {
             <User />
             <h2 className="font-semibold text-xl">{name}</h2>
           </div>
-          <UserListItemActions id={id} />
+          <div className="flex items-center gap-2">
+            <Badge
+              variant={isActive ? "default" : "destructive"}
+              className="font-semibold"
+            >
+              {isActive ? "Active" : "Inactive"}
+            </Badge>
+            <UserListItemActions id={id} />
+          </div>
         </div>
         <div className="py-2 space-y-3">
           <div className="flex gap-2 items-center">

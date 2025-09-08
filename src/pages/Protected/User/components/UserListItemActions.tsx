@@ -6,7 +6,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { UpdateUserDialog } from "@/components";
+import { ConfirmInactiveUserDialog, UpdateUserDialog } from "@/components";
 import { use, useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
 import { AuthContext } from "@/contexts";
@@ -22,10 +22,18 @@ export default function UserListItemActions({ id }: Props) {
   const [open, setOpen] = useState<boolean>(false);
   const [openUpdateUserDialog, setOpenUpdateUserDialog] =
     useState<boolean>(false);
+  const [openConfirmInactiveDialog, setOpenConfirmInactiveDialog] =
+    useState<boolean>(false);
 
   function handleOpenEdit() {
     setSearchParams({ userId: id.toString() });
     setOpenUpdateUserDialog(true);
+    setOpen(false);
+  }
+
+  function handleOpenInactive() {
+    setSearchParams({ userId: id.toString() });
+    setOpenConfirmInactiveDialog(true);
     setOpen(false);
   }
 
@@ -50,8 +58,11 @@ export default function UserListItemActions({ id }: Props) {
             </DropdownMenuItem>
           )}
           {authContext.roles?.includes(Role.OWNER) && (
-            <DropdownMenuItem className="text-destructive">
-              Delete Staff
+            <DropdownMenuItem
+              className="text-destructive"
+              onClick={() => handleOpenInactive()}
+            >
+              Set to Inactive
             </DropdownMenuItem>
           )}
           <DropdownMenuItem>Reset Password</DropdownMenuItem>
@@ -60,6 +71,10 @@ export default function UserListItemActions({ id }: Props) {
       <UpdateUserDialog
         open={openUpdateUserDialog}
         setOpen={setOpenUpdateUserDialog}
+      />
+      <ConfirmInactiveUserDialog
+        open={openConfirmInactiveDialog}
+        setOpen={setOpenConfirmInactiveDialog}
       />
     </>
   );
