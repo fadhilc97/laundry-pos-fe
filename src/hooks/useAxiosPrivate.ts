@@ -2,9 +2,11 @@ import { use, useEffect } from "react";
 import { axiosPrivate } from "@/config";
 import { AuthContext } from "@/contexts";
 import { getNewAccessTokenPromise } from "@/lib";
+import { useNavigate } from "react-router";
 
 export function useAxiosPrivate() {
   const authContext = use(AuthContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const requestIntercept = axiosPrivate.interceptors.request.use(
@@ -26,6 +28,9 @@ export function useAxiosPrivate() {
           const { accessToken } = await getNewAccessTokenPromise();
           prevRequest.headers["Authorization"] = `Bearer ${accessToken}`;
           return axiosPrivate(prevRequest);
+        }
+        if (error.response.status === 403) {
+          return navigate("/errors?code=403");
         }
         return Promise.reject(error);
       }
