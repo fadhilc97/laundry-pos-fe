@@ -65,7 +65,7 @@ export default function UserListItemActions({ id }: Props) {
               Set to Inactive
             </DropdownMenuItem>
           )}
-          <DropdownMenuItem>Reset Password</DropdownMenuItem>
+          {/* <DropdownMenuItem>Reset Password</DropdownMenuItem> */}
         </DropdownMenuContent>
       </DropdownMenu>
       <UpdateUserDialog
