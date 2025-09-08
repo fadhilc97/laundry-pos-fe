@@ -1,45 +1,9 @@
-import { ArrowLeftRight, Users, ShoppingBag, Users2 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Link } from "react-router";
-import { NavMenuItem } from "@/components/NavMenus/NavMenus";
-import { Role } from "@/lib";
+
 import { use } from "react";
 import { AuthContext } from "@/contexts";
-
-type QuickAccessMenuItem = NavMenuItem;
-
-const QUICE_ACCESS_MENU_ITEMS: QuickAccessMenuItem[] = [
-  {
-    url: "/transactions",
-    icon: <ArrowLeftRight />,
-    label: "Orders",
-    accessRoles: [Role.OWNER, Role.STAFF],
-  },
-  {
-    url: "/customers",
-    icon: <Users />,
-    label: "Customers",
-    accessRoles: [Role.OWNER, Role.STAFF],
-  },
-  {
-    url: "/products",
-    icon: <ShoppingBag />,
-    label: "Products",
-    accessRoles: [Role.OWNER],
-  },
-  {
-    url: "/user",
-    icon: <Users2 />,
-    label: "User",
-    accessRoles: [Role.SUPER_ADMIN],
-  },
-  {
-    url: "/user",
-    icon: <Users2 />,
-    label: "Staff",
-    accessRoles: [Role.OWNER],
-  },
-];
+import { QUICK_ACCESS_MENU_ITEMS, QuickAccessMenuItem } from "@/lib";
 
 export default function QuickAccessMenu() {
   const authContext = use(AuthContext);
@@ -54,7 +18,7 @@ export default function QuickAccessMenu() {
 
   return (
     <Card className="rounded-lg flex-row justify-around p-4 overflow-auto">
-      {QUICE_ACCESS_MENU_ITEMS.filter(filterMenuItem).map((menuItem) => (
+      {QUICK_ACCESS_MENU_ITEMS.filter(filterMenuItem).map((menuItem) => (
         <div key={menuItem.url} className="gap-2 flex flex-col items-center">
           <Link
             to={menuItem.url}
