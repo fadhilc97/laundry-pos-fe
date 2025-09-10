@@ -15,6 +15,7 @@ import {
   UserCreateOrUpdate,
   EditMyLaundry,
   EditCustomer,
+  Products,
 } from "@/pages";
 import { AuthRoute, PersistLoginRoute, UserRolesRoute } from "@/routes";
 import { Role } from "@/lib";
@@ -66,6 +67,9 @@ export default function App() {
                 </Route>
                 <Route path="/customers">
                   <Route path=":customerId/edit" element={<EditCustomer />} />
+                </Route>
+                <Route path="/products">
+                  <Route index element={<Products />} />
                 </Route>
               </Route>
 

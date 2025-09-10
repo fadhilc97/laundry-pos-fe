@@ -12,6 +12,9 @@ export interface IProduct {
     shortName: string;
     decimalPlaces: number;
   };
+  currency: {
+    symbol: string;
+  };
 }
 
 export function useGetProductList() {

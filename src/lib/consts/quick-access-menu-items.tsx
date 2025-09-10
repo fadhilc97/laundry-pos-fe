@@ -18,7 +18,7 @@ export const QUICK_ACCESS_MENU_ITEMS: QuickAccessMenuItem[] = [
     accessRoles: [Role.OWNER, Role.STAFF],
   },
   {
-    url: "/products",
+    url: "/products?serviceType=REGULAR",
     icon: <ShoppingBag />,
     label: "Products",
     accessRoles: [Role.OWNER],
