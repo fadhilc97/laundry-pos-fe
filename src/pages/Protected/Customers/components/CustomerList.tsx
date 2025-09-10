@@ -15,6 +15,7 @@ export default function CustomerList() {
       {customers?.map((customer) => (
         <CustomerListItem
           key={customer.id}
+          id={customer.id}
           name={customer.name}
           address={customer.address}
           whatsappNumber={customer.whatsappPhone}

@@ -14,6 +14,7 @@ import {
   User,
   UserCreateOrUpdate,
   EditMyLaundry,
+  EditCustomer,
 } from "@/pages";
 import { AuthRoute, PersistLoginRoute, UserRolesRoute } from "@/routes";
 import { Role } from "@/lib";
@@ -63,9 +64,12 @@ export default function App() {
                     <Route path="edit" element={<EditMyLaundry />} />
                   </Route>
                 </Route>
+                <Route path="/customers">
+                  <Route path=":customerId/edit" element={<EditCustomer />} />
+                </Route>
               </Route>
 
-              {/* Accessible to SUPER ADMIN only */}
+              {/* Accessible to SUPER ADMIN and OWNER only */}
               <Route
                 element={
                   <UserRolesRoute roles={[Role.SUPER_ADMIN, Role.OWNER]} />
