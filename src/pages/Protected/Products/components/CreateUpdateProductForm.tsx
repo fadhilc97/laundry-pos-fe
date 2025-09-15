@@ -9,6 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useGetCurrencyList, useGetQuantityUnitList } from "@/hooks";
 import {
   cn,
   CreateUpdateProductFormInputs,
@@ -22,6 +23,21 @@ import { useNavigate, useParams } from "react-router";
 export default function CreateUpdateProductForm() {
   const params = useParams<{ productId: string }>();
   const navigate = useNavigate();
+
+  const getQuantityUnitList = useGetQuantityUnitList();
+  const quantityUnits = getQuantityUnitList.data?.data.data;
+  const quantityUnitOptions = quantityUnits?.map((qtyUnit) => ({
+    value: qtyUnit.id.toString(),
+    label: qtyUnit.name,
+  }));
+
+  const getCurrencyList = useGetCurrencyList();
+  const currencies = getCurrencyList.data?.data.data;
+  const currencyOptions = currencies?.map((currency) => ({
+    value: currency.id.toString(),
+    label: `${currency.name} (${currency.symbol})`,
+  }));
+
   const {
     register,
     handleSubmit,
@@ -32,7 +48,9 @@ export default function CreateUpdateProductForm() {
     resolver: zodResolver(createUpdateProductSchema),
   });
 
-  function onSubmit(values: CreateUpdateProductFormInputs) {}
+  function onSubmit(values: CreateUpdateProductFormInputs) {
+    console.log(values);
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -53,7 +71,7 @@ export default function CreateUpdateProductForm() {
         )}
       </div>
       <div className="space-y-1">
-        <Label htmlFor="serviceType">ServiceType</Label>
+        <Label htmlFor="serviceType">Service Type</Label>
         <Select
           onValueChange={(value) => {
             setValue("serviceType", value);
@@ -81,7 +99,7 @@ export default function CreateUpdateProductForm() {
         <Label htmlFor="qtyUnitId">Quantity Unit</Label>
         <div className="w-full">
           <Combobox
-            options={[]}
+            options={quantityUnitOptions || []}
             selectMessage="Select quantity unit..."
             onSelect={(value) => setValue("qtyUnitId", +value)}
             isError={!!errors.qtyUnitId}
@@ -97,7 +115,7 @@ export default function CreateUpdateProductForm() {
         <Label htmlFor="currencyId">Currency</Label>
         <div className="w-full">
           <Combobox
-            options={[]}
+            options={currencyOptions || []}
             selectMessage="Select currency..."
             onSelect={(value) => setValue("currencyId", +value)}
             isError={!!errors.currencyId}
@@ -117,6 +135,7 @@ export default function CreateUpdateProductForm() {
           className="mt-1"
           customInput={Input}
           thousandSeparator=","
+          onValueChange={(values) => setValue("price", values.floatValue || 0)}
           {...register("price")}
         />
         {errors.price && (
