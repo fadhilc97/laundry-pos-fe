@@ -16,6 +16,7 @@ import {
   EditMyLaundry,
   EditCustomer,
   Products,
+  CreateUpdateProduct,
 } from "@/pages";
 import { AuthRoute, PersistLoginRoute, UserRolesRoute } from "@/routes";
 import { Role } from "@/lib";
@@ -70,6 +71,11 @@ export default function App() {
                 </Route>
                 <Route path="/products">
                   <Route index element={<Products />} />
+                  <Route path="create" element={<CreateUpdateProduct />} />
+                  <Route
+                    path=":productId/edit"
+                    element={<CreateUpdateProduct />}
+                  />
                 </Route>
               </Route>
 

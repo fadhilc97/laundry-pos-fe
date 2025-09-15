@@ -1,7 +1,7 @@
 import { useGetProductList } from "@/hooks";
 import ProductListItem from "./components/ProductListItem";
 import { Button } from "@/components/ui/button";
-import { useSearchParams } from "react-router";
+import { Link, useSearchParams } from "react-router";
 
 export default function Products() {
   const [searchParams, setSearchParams] = useSearchParams({
@@ -15,9 +15,11 @@ export default function Products() {
       <div className="flex justify-between">
         <h1 className="font-semibold items-center text-md">Product List</h1>
       </div>
-      <Button type="button" className="w-full font-semibold">
-        Create New Product
-      </Button>
+      <Link to="/products/create" className="block">
+        <Button type="button" className="w-full font-semibold">
+          Create New Product
+        </Button>
+      </Link>
       <div className="flex gap-2 justify-center">
         <Button
           type="button"
