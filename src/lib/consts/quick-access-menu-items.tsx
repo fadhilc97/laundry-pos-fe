@@ -1,4 +1,12 @@
-import { ArrowLeftRight, Users, ShoppingBag, Users2 } from "lucide-react";
+import {
+  ArrowLeftRight,
+  Users,
+  ShoppingBag,
+  Users2,
+  Pin,
+  Currency,
+  Ruler,
+} from "lucide-react";
 import { NavMenuItem } from "@/components/NavMenus/NavMenus";
 import { Role } from "@/lib";
 
@@ -33,6 +41,24 @@ export const QUICK_ACCESS_MENU_ITEMS: QuickAccessMenuItem[] = [
     url: "/user",
     icon: <Users2 />,
     label: "Staff",
+    accessRoles: [Role.OWNER],
+  },
+  {
+    url: "/location",
+    icon: <Pin />,
+    label: "Shelf Location",
+    accessRoles: [Role.OWNER],
+  },
+  {
+    url: "/currency",
+    icon: <Currency />,
+    label: "Currency",
+    accessRoles: [Role.OWNER],
+  },
+  {
+    url: "/quantity-unit",
+    icon: <Ruler />,
+    label: "Quantity Unit",
     accessRoles: [Role.OWNER],
   },
 ];

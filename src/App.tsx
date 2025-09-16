@@ -77,6 +77,30 @@ export default function App() {
                     element={<CreateUpdateProduct />}
                   />
                 </Route>
+                <Route path="/location">
+                  <Route index element={<p>Location Page</p>} />
+                  <Route path="create" element={<p>Location Form</p>} />
+                  <Route
+                    path=":locationId/edit"
+                    element={<p>Location Form</p>}
+                  />
+                </Route>
+                <Route path="/currency">
+                  <Route index element={<p>Currency Page</p>} />
+                  <Route path="create" element={<p>Currency Form</p>} />
+                  <Route
+                    path=":currencyId/edit"
+                    element={<p>Currency Form</p>}
+                  />
+                </Route>
+                <Route path="/quantity-unit">
+                  <Route index element={<p>Quantity Unit Page</p>} />
+                  <Route path="create" element={<p>Quantity Unit Form</p>} />
+                  <Route
+                    path=":qtyUnitId/edit"
+                    element={<p>Quantity Unit Form</p>}
+                  />
+                </Route>
               </Route>
 
               {/* Accessible to SUPER ADMIN and OWNER only */}
