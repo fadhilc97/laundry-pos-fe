@@ -21,6 +21,7 @@ import {
 
 type Props = {
   options: { value: string; label: string }[];
+  selectValue?: string;
   selectMessage?: string;
   onSelect?: (value: string) => void;
   isError?: boolean;
@@ -29,13 +30,18 @@ type Props = {
 
 export function Combobox({
   options,
+  selectValue = "",
   selectMessage = "Select...",
   onSelect = () => {},
   isError = false,
   modal = false,
 }: Props) {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("");
+  const [value, setValue] = React.useState(selectValue);
+
+  React.useEffect(() => {
+    setValue(selectValue);
+  }, [selectValue]);
 
   return (
     <Popover open={open} onOpenChange={setOpen} modal={modal}>
