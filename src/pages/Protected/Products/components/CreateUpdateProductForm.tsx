@@ -9,13 +9,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useGetCurrencyList, useGetQuantityUnitList } from "@/hooks";
+import {
+  useGetCurrencyList,
+  useGetProductDetails,
+  useGetQuantityUnitList,
+  usePostCreateProduct,
+  usePutUpdateProduct,
+} from "@/hooks";
 import {
   cn,
   CreateUpdateProductFormInputs,
   createUpdateProductSchema,
 } from "@/lib";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { NumericFormat } from "react-number-format";
 import { useNavigate, useParams } from "react-router";
@@ -23,6 +30,9 @@ import { useNavigate, useParams } from "react-router";
 export default function CreateUpdateProductForm() {
   const params = useParams<{ productId: string }>();
   const navigate = useNavigate();
+
+  const getProductDetails = useGetProductDetails();
+  const product = getProductDetails.data?.data.data;
 
   const getQuantityUnitList = useGetQuantityUnitList();
   const quantityUnits = getQuantityUnitList.data?.data.data;
@@ -38,18 +48,28 @@ export default function CreateUpdateProductForm() {
     label: `${currency.name} (${currency.symbol})`,
   }));
 
+  const postCreateProduct = usePostCreateProduct();
+  const putUpdateProduct = usePutUpdateProduct();
+  const isMutationPending =
+    postCreateProduct.isPending || putUpdateProduct.isPending;
+
   const {
     register,
     handleSubmit,
     setValue,
-    getValues,
+    watch,
     formState: { errors },
   } = useForm<CreateUpdateProductFormInputs>({
     resolver: zodResolver(createUpdateProductSchema),
+    values: params.productId ? product : undefined,
   });
 
   function onSubmit(values: CreateUpdateProductFormInputs) {
-    console.log(values);
+    if (params.productId) {
+      putUpdateProduct.mutate(values);
+    } else {
+      postCreateProduct.mutate(values);
+    }
   }
 
   return (
@@ -60,7 +80,7 @@ export default function CreateUpdateProductForm() {
           id="name"
           type="text"
           placeholder="Product Name"
-          className="mt-1"
+          className={cn("mt-1", errors.name && "border-destructive")}
           autoComplete="off"
           {...register("name")}
         />
@@ -74,9 +94,9 @@ export default function CreateUpdateProductForm() {
         <Label htmlFor="serviceType">Service Type</Label>
         <Select
           onValueChange={(value) => {
-            setValue("serviceType", value);
+            setValue("serviceType", value, { shouldValidate: true });
           }}
-          defaultValue={getValues("serviceType")}
+          value={watch("serviceType")}
         >
           <SelectTrigger
             className={cn("w-full", errors.serviceType && "border-destructive")}
@@ -100,8 +120,11 @@ export default function CreateUpdateProductForm() {
         <div className="w-full">
           <Combobox
             options={quantityUnitOptions || []}
+            selectValue={watch("qtyUnitId")?.toString()}
             selectMessage="Select quantity unit..."
-            onSelect={(value) => setValue("qtyUnitId", +value)}
+            onSelect={(value) =>
+              setValue("qtyUnitId", +value, { shouldValidate: true })
+            }
             isError={!!errors.qtyUnitId}
           />
         </div>
@@ -115,9 +138,12 @@ export default function CreateUpdateProductForm() {
         <Label htmlFor="currencyId">Currency</Label>
         <div className="w-full">
           <Combobox
+            selectValue={watch("currencyId")?.toString()}
             options={currencyOptions || []}
             selectMessage="Select currency..."
-            onSelect={(value) => setValue("currencyId", +value)}
+            onSelect={(value) =>
+              setValue("currencyId", +value, { shouldValidate: true })
+            }
             isError={!!errors.currencyId}
           />
         </div>
@@ -132,10 +158,13 @@ export default function CreateUpdateProductForm() {
         <NumericFormat
           id="price"
           placeholder="Price"
-          className="mt-1"
+          className={cn("mt-1", errors.name && "border-destructive")}
           customInput={Input}
           thousandSeparator=","
-          onValueChange={(values) => setValue("price", values.floatValue || 0)}
+          onValueChange={(values) =>
+            setValue("price", values.floatValue || 0, { shouldValidate: true })
+          }
+          value={watch("price")}
           {...register("price")}
         />
         {errors.price && (
@@ -149,7 +178,9 @@ export default function CreateUpdateProductForm() {
           type="submit"
           variant="default"
           className="font-semibold w-full"
+          disabled={isMutationPending}
         >
+          {isMutationPending && <Loader2 className="animate-spin" />}
           {params.productId ? "Update" : "Create"}
         </Button>
         <Button
