@@ -17,6 +17,7 @@ import {
   EditCustomer,
   Products,
   CreateUpdateProduct,
+  Location,
 } from "@/pages";
 import { AuthRoute, PersistLoginRoute, UserRolesRoute } from "@/routes";
 import { Role } from "@/lib";
@@ -78,12 +79,7 @@ export default function App() {
                   />
                 </Route>
                 <Route path="/location">
-                  <Route index element={<p>Location Page</p>} />
-                  <Route path="create" element={<p>Location Form</p>} />
-                  <Route
-                    path=":locationId/edit"
-                    element={<p>Location Form</p>}
-                  />
+                  <Route index element={<Location />} />
                 </Route>
                 <Route path="/currency">
                   <Route index element={<p>Currency Page</p>} />
