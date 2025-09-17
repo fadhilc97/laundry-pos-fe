@@ -20,6 +20,8 @@ import {
   Location,
   Currency,
   CreateUpdateCurrency,
+  QuantityUnit,
+  CreateUpdateQuantityUnit,
 } from "@/pages";
 import { AuthRoute, PersistLoginRoute, UserRolesRoute } from "@/routes";
 import { Role } from "@/lib";
@@ -92,11 +94,11 @@ export default function App() {
                   />
                 </Route>
                 <Route path="/quantity-unit">
-                  <Route index element={<p>Quantity Unit Page</p>} />
-                  <Route path="create" element={<p>Quantity Unit Form</p>} />
+                  <Route index element={<QuantityUnit />} />
+                  <Route path="create" element={<CreateUpdateQuantityUnit />} />
                   <Route
                     path=":qtyUnitId/edit"
-                    element={<p>Quantity Unit Form</p>}
+                    element={<CreateUpdateQuantityUnit />}
                   />
                 </Route>
               </Route>
