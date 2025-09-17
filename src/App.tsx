@@ -18,6 +18,8 @@ import {
   Products,
   CreateUpdateProduct,
   Location,
+  Currency,
+  CreateUpdateCurrency,
 } from "@/pages";
 import { AuthRoute, PersistLoginRoute, UserRolesRoute } from "@/routes";
 import { Role } from "@/lib";
@@ -82,11 +84,11 @@ export default function App() {
                   <Route index element={<Location />} />
                 </Route>
                 <Route path="/currency">
-                  <Route index element={<p>Currency Page</p>} />
-                  <Route path="create" element={<p>Currency Form</p>} />
+                  <Route index element={<Currency />} />
+                  <Route path="create" element={<CreateUpdateCurrency />} />
                   <Route
                     path=":currencyId/edit"
-                    element={<p>Currency Form</p>}
+                    element={<CreateUpdateCurrency />}
                   />
                 </Route>
                 <Route path="/quantity-unit">
