@@ -14,10 +14,11 @@ export default function LocationListItem({ id, name }: Props) {
     <Card className="rounded-lg px-4 py-2">
       {isEdit ? (
         <LocationForm
-          usage="edit"
+          mode="edit"
           initialValues={{ name }}
           locationId={id}
           onCancel={() => setIsEdit(false)}
+          onEditSuccess={() => setIsEdit(false)}
         />
       ) : (
         <div className="flex justify-between items-center">
