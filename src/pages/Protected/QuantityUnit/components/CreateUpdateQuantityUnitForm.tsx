@@ -2,10 +2,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
+  useGetQuantityUnitDetails,
+  usePostCreateQuantityUnit,
+  usePutUpdateQuantityUnit,
+} from "@/hooks";
+import {
   CreateUpdateQuantityUnitFormInputs,
   createUpdateQuantityUnitSchema,
 } from "@/lib";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router";
 
@@ -13,18 +19,29 @@ export default function CreateUpdateQuantityUnitForm() {
   const params = useParams<{ qtyUnitId: string }>();
   const navigate = useNavigate();
 
+  const getQuantityUnitDetails = useGetQuantityUnitDetails();
+  const quantityUnit = getQuantityUnitDetails.data?.data.data;
+
   const {
     register,
     handleSubmit,
-    setValue,
-    watch,
     formState: { errors },
   } = useForm<CreateUpdateQuantityUnitFormInputs>({
     resolver: zodResolver(createUpdateQuantityUnitSchema),
+    values: params.qtyUnitId ? quantityUnit : undefined,
   });
 
+  const postCreateQuantityUnit = usePostCreateQuantityUnit();
+  const putUpdateQuantityUnit = usePutUpdateQuantityUnit();
+  const isMutationPending =
+    postCreateQuantityUnit.isPending || putUpdateQuantityUnit.isPending;
+
   function onSubmit(values: CreateUpdateQuantityUnitFormInputs) {
-    console.log(values);
+    if (params.qtyUnitId) {
+      putUpdateQuantityUnit.mutate(values);
+    } else {
+      postCreateQuantityUnit.mutate(values);
+    }
   }
 
   return (
@@ -34,7 +51,7 @@ export default function CreateUpdateQuantityUnitForm() {
         <Input
           id="name"
           type="text"
-          placeholder="Quantity Unit Name"
+          placeholder="e.g. Kilogram"
           className="mt-1"
           autoComplete="off"
           aria-invalid={!!errors.name}
@@ -51,7 +68,7 @@ export default function CreateUpdateQuantityUnitForm() {
         <Input
           id="shortName"
           type="text"
-          placeholder="Quantity Unit Short Name"
+          placeholder="e.g. kg"
           className="mt-1"
           autoComplete="off"
           aria-invalid={!!errors.shortName}
@@ -68,9 +85,9 @@ export default function CreateUpdateQuantityUnitForm() {
           type="submit"
           variant="default"
           className="font-semibold w-full"
-          // disabled={isMutationPending}
+          disabled={isMutationPending}
         >
-          {/* {isMutationPending && <Loader2 className="animate-spin" />} */}
+          {isMutationPending && <Loader2 className="animate-spin" />}
           {params.qtyUnitId ? "Update" : "Create"}
         </Button>
         <Button
