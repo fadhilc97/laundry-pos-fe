@@ -2,10 +2,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
+  useGetCurrencyDetails,
+  usePostCreateCurrency,
+  usePutUpdateCurrency,
+} from "@/hooks";
+import {
   CreateUpdateCurrencyFormInputs,
   createUpdateCurrencySchema,
 } from "@/lib";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router";
 
@@ -13,18 +19,29 @@ export default function CreateUpdateCurrencyForm() {
   const params = useParams<{ currencyId: string }>();
   const navigate = useNavigate();
 
+  const getCurrencyDetails = useGetCurrencyDetails();
+  const currency = getCurrencyDetails.data?.data.data;
+
   const {
     register,
     handleSubmit,
-    setValue,
-    watch,
     formState: { errors },
   } = useForm<CreateUpdateCurrencyFormInputs>({
     resolver: zodResolver(createUpdateCurrencySchema),
+    values: params.currencyId ? currency : undefined,
   });
 
+  const postCreateCurrency = usePostCreateCurrency();
+  const putUpdateCurrency = usePutUpdateCurrency();
+  const isMutationPending =
+    postCreateCurrency.isPending || putUpdateCurrency.isPending;
+
   function onSubmit(values: CreateUpdateCurrencyFormInputs) {
-    console.log(values);
+    if (params.currencyId) {
+      putUpdateCurrency.mutate(values);
+    } else {
+      postCreateCurrency.mutate(values);
+    }
   }
 
   return (
@@ -34,7 +51,7 @@ export default function CreateUpdateCurrencyForm() {
         <Input
           id="name"
           type="text"
-          placeholder="Currency Name"
+          placeholder="e.g. Rupiah"
           className="mt-1"
           autoComplete="off"
           aria-invalid={!!errors.name}
@@ -47,11 +64,28 @@ export default function CreateUpdateCurrencyForm() {
         )}
       </div>
       <div className="space-y-1">
-        <Label htmlFor="name">Symbol</Label>
+        <Label htmlFor="shortName">Short Name</Label>
+        <Input
+          id="shortName"
+          type="text"
+          placeholder="e.g. IDR"
+          className="mt-1"
+          autoComplete="off"
+          aria-invalid={!!errors.shortName}
+          {...register("shortName")}
+        />
+        {errors.shortName && (
+          <p className="text-xs font-medium text-red-500 mt-1">
+            {errors.shortName.message}
+          </p>
+        )}
+      </div>
+      <div className="space-y-1">
+        <Label htmlFor="symbol">Symbol</Label>
         <Input
           id="symbol"
           type="text"
-          placeholder="Currency Symbol"
+          placeholder="e.g. Rp"
           className="mt-1"
           autoComplete="off"
           aria-invalid={!!errors.symbol}
@@ -63,14 +97,31 @@ export default function CreateUpdateCurrencyForm() {
           </p>
         )}
       </div>
+      <div className="space-y-1">
+        <Label htmlFor="countryName">Country Name</Label>
+        <Input
+          id="countryName"
+          type="text"
+          placeholder="e.g. Indonesia"
+          className="mt-1"
+          autoComplete="off"
+          aria-invalid={!!errors.countryName}
+          {...register("countryName")}
+        />
+        {errors.countryName && (
+          <p className="text-xs font-medium text-red-500 mt-1">
+            {errors.countryName.message}
+          </p>
+        )}
+      </div>
       <div className="mt-3 space-y-2">
         <Button
           type="submit"
           variant="default"
           className="font-semibold w-full"
-          // disabled={isMutationPending}
+          disabled={isMutationPending}
         >
-          {/* {isMutationPending && <Loader2 className="animate-spin" />} */}
+          {isMutationPending && <Loader2 className="animate-spin" />}
           {params.currencyId ? "Update" : "Create"}
         </Button>
         <Button

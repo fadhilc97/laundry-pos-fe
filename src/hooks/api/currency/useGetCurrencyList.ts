@@ -5,6 +5,8 @@ import { useQuery } from "@tanstack/react-query";
 export interface IGetCurrencyListResponse {
   id: number;
   name: string;
+  shortName: string;
+  countryName: string;
   symbol: string;
 }
 

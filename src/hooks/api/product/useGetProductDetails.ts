@@ -10,7 +10,7 @@ export function useGetProductDetails() {
   const axiosPrivate = useAxiosPrivate();
 
   return useQuery({
-    queryKey: ["product", { serviceType }],
+    queryKey: ["product", params.productId, { serviceType }],
     queryFn: async function () {
       return await axiosPrivate.get<
         ISuccessResponse<CreateUpdateProductFormInputs>
