@@ -22,6 +22,7 @@ export default function CreateLaundryDialog() {
   return (
     <Dialog
       open={
+        authContext.isAuthenticated &&
         authContext.roles?.includes(Role.OWNER) &&
         !myLaundryData &&
         !getMyLaundry.isPending
