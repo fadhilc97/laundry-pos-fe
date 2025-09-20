@@ -1,12 +1,13 @@
 import { useAxiosPrivate } from "@/hooks/useAxiosPrivate";
 import { CreateUpdateCustomerInputs, ISuccessResponse } from "@/lib";
 import { useMutation } from "@tanstack/react-query";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { toast } from "sonner";
 
 export interface IPutUpdateCustomerResponse extends ISuccessResponse {}
 
 export function usePutUpdateCustomer() {
+  const navigate = useNavigate();
   const params = useParams<{ customerId: string }>();
   const axiosPrivate = useAxiosPrivate();
 
@@ -20,6 +21,7 @@ export function usePutUpdateCustomer() {
     },
     onSuccess(res) {
       toast.success(res.data.message);
+      navigate("/customers");
     },
   });
 }
