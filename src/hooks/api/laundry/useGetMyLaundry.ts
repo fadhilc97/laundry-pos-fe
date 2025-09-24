@@ -1,6 +1,8 @@
+import { AuthContext } from "@/contexts";
 import { useAxiosPrivate } from "@/hooks";
-import { ISuccessResponse } from "@/lib";
+import { ISuccessResponse, Role } from "@/lib";
 import { useQuery } from "@tanstack/react-query";
+import { use } from "react";
 
 export interface IGetLaundryResponse {
   id: number;
@@ -16,6 +18,7 @@ export interface IGetLaundryResponse {
 }
 
 export function useGetMyLaundry() {
+  const authContext = use(AuthContext);
   const axiosPrivate = useAxiosPrivate();
 
   return useQuery({
@@ -26,5 +29,6 @@ export function useGetMyLaundry() {
       );
     },
     refetchOnWindowFocus: false,
+    enabled: !authContext.roles?.includes(Role.SUPER_ADMIN),
   });
 }
